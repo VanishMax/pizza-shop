@@ -1,10 +1,11 @@
 import React from 'react';
+import Nav from './nav';
 
 function App () {
   return (
-    <div>
-      <h1>Hello from pizza shop!</h1>
-    </div>
+    <>
+      <Nav />
+    </>
   );
 }
 
