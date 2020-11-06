@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './button.module.css';
 import {ComponentProps} from '../../types';
+import composeClasses from '../compose-classes';
 
 type ButtonProps = {
   submit?: boolean,
@@ -13,12 +14,12 @@ export default function Button ({
   clickHandler,
   label,
   submit = false,
-  className,
+  className = '',
   children,
 } : ComponentProps<ButtonProps>) {
 
   return (
-    <div className={styles.button + (className ? ' ' + className : '')}>
+    <div className={composeClasses(styles.button, className)}>
       <button
         type={submit ? 'submit' : 'button'}
         onClick={(e) => clickHandler?.(e)}

@@ -8,10 +8,6 @@
   box-shadow: 7px 7px 14px #c7c8cd, -7px -7px 14px #ffffff;
 }
 
-.card h2 {
-  text-align: center;
-}
-
 @media screen and (min-width: 1024px) {
   .card {
     width: 40%;

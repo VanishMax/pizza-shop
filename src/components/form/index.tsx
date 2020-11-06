@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './form.module.css';
 import {ComponentProps} from '../../types';
+import composeClasses from '../compose-classes';
 
 type FormProps = {
   submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void,
@@ -9,7 +10,7 @@ type FormProps = {
 
 export default function Form ({
   submitHandler,
-  className,
+  className = '',
   children,
 } : ComponentProps<FormProps>) {
 
@@ -20,7 +21,7 @@ export default function Form ({
 
   return (
     <form
-      className={styles.form + (className ? ' ' + className : '')}
+      className={composeClasses(styles.form, className)}
       onSubmit={submit}
     >
       {children}
