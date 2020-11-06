@@ -33,7 +33,7 @@ export default function FormInput ({
       {label && (
         <span>
           {label}
-          {required && <span>&nbsp;*</span>}
+          {required && <span className={styles.required}>&nbsp;*</span>}
         </span>
       )}
 

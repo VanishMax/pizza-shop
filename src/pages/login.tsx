@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import Card from '../components/card';
 import FormInput from '../components/form-input';
+import Button from '../components/button';
+import Form from '../components/form';
 
 export default function Login () {
   const [email, setEmail] = useState<string>('');
@@ -8,9 +10,9 @@ export default function Login () {
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
   return (
-    <Card>
+    <Card className="mt-2">
       <h2>Log In</h2>
-      <form>
+      <Form>
         <FormInput
           value={email}
           label="Email"
@@ -37,12 +39,16 @@ export default function Login () {
           changeHandler={(val) => setPasswordConfirm(val)}
         />
 
+        <Button className="mt-2" submit>
+          Submit
+        </Button>
+
         <p>
           {email}
           {password}
           {passwordConfirm}
         </p>
-      </form>
+      </Form>
     </Card>
   );
 }

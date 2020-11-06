@@ -16,6 +16,7 @@ function App () {
       <Suspense fallback={<div />}>
         <AnimatedSwitch
           atEnter={{ opacity: 0 }}
+          atLeave={{}}
           atActive={{ opacity: 1 }}
           runOnMount
         >
