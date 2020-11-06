@@ -8,3 +8,11 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.card-shadow {
+  box-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #fff;
+}
+
+.form {
+  padding: 1rem;
+}

@@ -1,9 +1,13 @@
 import React from 'react';
+import Card from '../components/card';
 
 export default function Login () {
   return (
-    <div>
-      <h1>Page: login</h1>
-    </div>
+    <Card>
+      <h2>Log In</h2>
+      <form>
+
+      </form>
+    </Card>
   );
 }

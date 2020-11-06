@@ -1,0 +1,18 @@
+.card {
+  padding: 1rem;
+  border-radius: .5rem;
+  width: 80%;
+  margin: auto;
+  background: linear-gradient(145deg, #dfe1ec, #f8f8f8);
+  box-shadow: 7px 7px 14px #c7c8cd, -7px -7px 14px #ffffff;
+}
+
+.card h2 {
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .card {
+    width: 50%;
+  }
+}

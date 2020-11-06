@@ -1,0 +1,16 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.nav img {
+  height: 50px;
+}
+
+.nav a {
+  color: #424567;
+  font-size: 1.1em;
+  text-decoration: none;
+}
