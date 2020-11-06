@@ -1,7 +1,7 @@
 .card {
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: .5rem;
-  width: 80%;
+  width: 90%;
   margin: auto;
   background: linear-gradient(145deg, #dfe1ec, #f8f8f8);
   box-shadow: 7px 7px 14px #c7c8cd, -7px -7px 14px #ffffff;

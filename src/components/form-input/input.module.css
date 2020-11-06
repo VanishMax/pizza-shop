@@ -1,0 +1,38 @@
+.formInput {
+  position: relative;
+  margin-bottom: .5rem;
+  display: block;
+}
+
+.required {
+  color: #e13026;
+}
+
+.formInput > span {
+  font-size: 0.85em;
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
+
+.formInput > div {
+  display: flex;
+  width: 100%;
+  border-radius: .5rem;
+}
+
+.formInput > div > div {
+  width: 30px;
+}
+
+.formInput > div > input {
+  width: 100%;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  background: #eaebf1;
+  box-shadow: inset 2px 2px 5px #bdbec2, inset -3px -3px 7px #fff;
+}
+
+.formInput input:focus {
+  outline: none;
+}
