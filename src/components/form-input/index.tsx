@@ -1,16 +1,18 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from './input.module.css';
 import {ComponentProps} from '../../types';
 import composeClasses from '../compose-classes';
 
-type InputProps = {
+export type InputTypeEnum = 'text'|'email'|'password'|'number';
+export type InputProps = {
   value?: string,
+  inputHandler?: (val: string) => void,
   changeHandler?: (val: string) => void,
   id?: string,
   placeholder?: string,
   autocomplete?: 'on'|'off',
   label?: string,
-  type: 'text'|'email'|'password'|'number',
+  type: InputTypeEnum,
   required?: boolean,
   icon?: JSX.Element,
   className?: string,
@@ -21,6 +23,7 @@ type InputProps = {
 export default function FormInput ({
   value,
   changeHandler,
+  inputHandler,
   id,
   placeholder,
   autocomplete,
@@ -32,6 +35,10 @@ export default function FormInput ({
   error = false,
   success = false,
 } : ComponentProps<InputProps>) {
+  const inp = useRef(null);
+
+  const input = (event: React.FormEvent<HTMLInputElement>) => inputHandler?.(event.currentTarget.value);
+  const change = (event: React.FormEvent<HTMLInputElement>) => changeHandler?.(event.currentTarget.value);
 
   return (
     <label className={composeClasses(
@@ -59,7 +66,9 @@ export default function FormInput ({
           placeholder={placeholder}
           required={required}
           autoComplete={autocomplete}
-          onChange={(e) => changeHandler?.(e.target.value as string)}
+          ref={inp}
+          onInput={input}
+          onChange={change}
         />
         {(error && typeof error === 'string') && (
           <span className={composeClasses(styles.infoSpan, styles.infoSpanError)}>{error}</span>

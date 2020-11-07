@@ -1,10 +1,21 @@
 import React, {useState} from 'react';
 import Form from '../components/form';
-import FormInput from '../components/form-input';
+import FormInput, {InputTypeEnum} from '../components/form-input';
 import Button from '../components/button';
 import Card from '../components/card';
 import styles from './pages.module.css';
 import {Link} from 'react-router-dom';
+
+type FieldElemType = {
+  slug: string,
+  val: string,
+  set: React.Dispatch<any>,
+  validate: (val: string) => string,
+  err: string,
+  label: string,
+  type: InputTypeEnum,
+  notRequired?: boolean,
+};
 
 export default function Signup () {
   const [name, setName] = useState<string>('');
@@ -12,53 +23,107 @@ export default function Signup () {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [errors, setErrors] = useState({
+    name: '',
+    address: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  });
+
+  const validateName = (val: string) => {
+    if (!val) return 'Name field cannot be empty';
+    if (val.match(/[^A-Za-z ]/)) return 'Names can have only English letters or spaces';
+    if (val.length < 3) return 'Name is too short';
+    return '';
+  };
+  const validateEmail = (val: string) => {
+    if (!val) return 'Email field cannot be empty';
+    if (!val.match(/[^@]+@[^.]+\.[a-zA-Z]+/i)) return 'Wrong email format';
+    return '';
+  };
+  const validatePassword = (val: string) => {
+    if (!val) return 'Password field cannot be empty';
+    if (val.length < 8 || !val.match(/[a-zA-Z]/) || !val.match(/[0-9]/)) return 'Password should be longer than 8 characters and contain both numbers and English letters';
+    return '';
+  };
+  const validatePasswordConfirm = (val: string) => {
+    if (!val) return 'Password confirmation field cannot be empty';
+    if (val !== password) return 'Passwords do not match';
+    return '';
+  };
+
+  const setValue = (val: string, item: FieldElemType) => {
+    item.set(val);
+    setErrors({...errors, [item.slug]: item.validate(val)});
+    };
+
+  const fields: FieldElemType[] = [
+    {
+      slug: 'name',
+      val: name,
+      set: setName,
+      validate: validateName,
+      err: errors.name,
+      label: 'Your name',
+      type: 'text',
+    },
+    {
+      slug: 'address',
+      val: address,
+      set: setAddress,
+      validate: () => '',
+      err: errors.address,
+      label: 'Shipping address',
+      notRequired: true,
+      type: 'text',
+    },
+    {
+      slug: 'email',
+      val: email,
+      set: setEmail,
+      validate: validateEmail,
+      err: errors.email,
+      label: 'Email',
+      type: 'email',
+    },
+    {
+      slug: 'password',
+      val: password,
+      set: setPassword,
+      validate: validatePassword,
+      err: errors.password,
+      label: 'Password',
+      type: 'password',
+    },
+    {
+      slug: 'passwordConfirm',
+      val: passwordConfirm,
+      set: setPasswordConfirm,
+      validate: validatePasswordConfirm,
+      err: errors.passwordConfirm,
+      label: 'Confirm password',
+      type: 'password',
+    },
+  ];
 
   return (
     <Card className="mt-2">
       <h2 className={styles.formH2}>Sign up</h2>
       <Form>
-        <FormInput
-          value={name}
-          label="Your name"
-          type="text"
-          required
-          changeHandler={(val) => setName(val)}
-        />
-
-        <FormInput
-          value={email}
-          label="Email"
-          type="email"
-          required
-          changeHandler={(val) => setEmail(val)}
-        />
-
-        <FormInput
-          value={address}
-          label="Shipping address"
-          type="text"
-          changeHandler={(val) => setAddress(val)}
-        />
-
-        <FormInput
-          value={password}
-          error="Some error text"
-          className="mt-1"
-          label="Password"
-          type="password"
-          required
-          changeHandler={(val) => setPassword(val)}
-        />
-
-        <FormInput
-          value={passwordConfirm}
-          success="Success text"
-          className="mt-1"
-          label="Confirm password"
-          type="password"
-          required
-          changeHandler={(val) => setPasswordConfirm(val)}
-        />
+        <>
+          {fields.map((item) => (
+            <FormInput
+              key={item.slug}
+              value={item.val}
+              label={item.label}
+              type={item.type}
+              required={!item.notRequired}
+              error={item.err}
+              inputHandler={(val) => setValue(val, item)}
+            />
+          ))}
+        </>
 
         <p className={styles.textLink}>
           If you already have an account,&nbsp;
