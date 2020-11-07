@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,4 +11,22 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+
+.card-shadow {
+  box-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #fff;
+}
+
+.form {
+  padding: 1rem;
+}
+
+.mt-1 {
+  margin-top: 1em;
+}
+.mb-1 {
+  margin-bottom: 1em;
+}
+.mt-2 {
+  margin-top: 2em;
 }
