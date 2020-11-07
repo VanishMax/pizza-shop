@@ -6,7 +6,7 @@ import Card from '../components/card';
 import styles from './pages.module.css';
 import {Link} from 'react-router-dom';
 
-type FieldElemType = {
+export type FieldElemType = {
   slug: string,
   val: string,
   set: React.Dispatch<any>,
@@ -56,7 +56,7 @@ export default function Signup () {
   const setValue = (val: string, item: FieldElemType) => {
     item.set(val);
     setErrors({...errors, [item.slug]: item.validate(val)});
-    };
+  };
 
   const fields: FieldElemType[] = [
     {
@@ -107,10 +107,18 @@ export default function Signup () {
     },
   ];
 
+  const submit = () => {
+    fields.forEach((field) => {
+      setErrors({...errors, [field.slug]: field.validate(field.val)});
+    });
+    const hasErrors = Object.values(errors).some((err) => !!err);
+    if (hasErrors) return;
+  };
+
   return (
     <Card className="mt-2">
       <h2 className={styles.formH2}>Sign up</h2>
-      <Form>
+      <Form submitHandler={submit}>
         <>
           {fields.map((item) => (
             <FormInput
