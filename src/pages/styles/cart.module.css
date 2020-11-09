@@ -74,6 +74,17 @@
   align-items: center;
 }
 
+.remove {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
 @media screen and (min-width: 1024px) {
   .cartGrid {
     flex-direction: row;
@@ -104,5 +115,9 @@
 
   .price {
     margin-left: 2rem;
+  }
+
+  .remove {
+    position: static;
   }
 }

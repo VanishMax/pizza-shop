@@ -10,7 +10,7 @@ export default function Home () {
   const addToCart = (pizzaId: string) => {
     ctx.set?.('cart', {
       id: pizzaId,
-      count: 0,
+      count: 1,
     });
   };
 

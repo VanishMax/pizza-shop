@@ -46,10 +46,13 @@ export default function Context ({children}: ComponentProps<{}>) {
     cart: (value: CartEntity) => {
       const isInTheCart = cart.some((item) => item.id === value.id);
       let newValue: CartEntity[];
-      if (isInTheCart) newValue = cart?.map((item) => {
-        if (item.id === value.id) return value;
-        return item;
-      });
+      if (isInTheCart) {
+        if (value.count > 0) newValue = cart?.map((item) => {
+          if (item.id === value.id) return value;
+          return item;
+        });
+        else newValue = cart.filter((item) => item.id !== value.id);
+      }
       else newValue = [...cart, value];
 
       setCart(newValue);

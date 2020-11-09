@@ -21,6 +21,13 @@ export default function Cart () {
     })));
   };
 
+  const removeFromCart = (id: string) => {
+    ctx.set?.('cart', {
+      id,
+      count: -1,
+    });
+  };
+
   useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
 
   return (
@@ -31,6 +38,7 @@ export default function Cart () {
             {pizzas.map((item) => (
               <div key={item.id} className={styles.cartItem}>
                 <div className={styles.description}>
+                  <div className={styles.remove} onClick={() => removeFromCart(item.id)}>✖</div>
                   <img src={item.pizza.photo} alt={item.pizza.title} />
                   <div>
                     <h3>{item.pizza.title}</h3>
