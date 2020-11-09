@@ -1,4 +1,4 @@
-import styles from '../../pages/styles/cart.module.css';
+import styles from './styles/receipt.module.css';
 import Button from '../button';
 import Card from '../card';
 import React from 'react';

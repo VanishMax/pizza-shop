@@ -1,4 +1,4 @@
-import styles from '../../pages/styles/cart.module.css';
+import styles from './styles/item.module.css';
 import Counter from '../counter';
 import React from 'react';
 import {CartPizza} from '../../pages/cart';
