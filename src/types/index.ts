@@ -10,5 +10,5 @@ export type User = {
 
 export type UserContext = {
   token: string,
-  user: User,
+  user: User|null,
 }

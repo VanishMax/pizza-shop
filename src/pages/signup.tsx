@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Form from '../components/form';
 import FormInput, {InputTypeEnum} from '../components/form-input';
 import Button from '../components/button';
 import Card from '../components/card';
 import styles from './pages.module.css';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {User} from '../types';
+import {GlobalContext} from '../components/global-context';
 
 export type FieldElemType = {
   slug: string,
@@ -27,6 +28,9 @@ type Errors = {
 }
 
 export default function Signup () {
+  const ctx = useContext(GlobalContext);
+  const routerHistory = useHistory();
+
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -137,8 +141,12 @@ export default function Signup () {
         }),
       });
       const data = await res.json();
+
       if (res.ok) {
-        console.log(data as {token: string, user: User});
+        setBigError('');
+
+        ctx.set?.('auth', data as {token: string, user: User});
+        routerHistory.push('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);

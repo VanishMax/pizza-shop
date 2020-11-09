@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useState, useContext} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import Card from '../components/card';
 import FormInput from '../components/form-input';
 import Button from '../components/button';
@@ -7,6 +7,7 @@ import Form from '../components/form';
 import styles from './pages.module.css'
 import {FieldElemType} from './signup';
 import {User} from '../types';
+import {GlobalContext} from '../components/global-context';
 
 type Errors = {
   email: string,
@@ -14,6 +15,9 @@ type Errors = {
 }
 
 export default function Login () {
+  const ctx = useContext(GlobalContext);
+  const routerHistory = useHistory();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [bigError, setBigError] = useState<string>('');
@@ -53,7 +57,9 @@ export default function Login () {
       const data = await res.json();
       if (res.ok) {
         setBigError('');
-        console.log(data as {token: string, user: User});
+
+        ctx.set?.('auth', data as {token: string, user: User});
+        routerHistory.push('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);
