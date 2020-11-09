@@ -26,8 +26,7 @@
 .pizzaGrid {
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 30px;
+  grid-template-columns: 1fr;
   row-gap: 30px;
   padding: 0 30px;
 }
@@ -59,4 +58,11 @@
 
 .pizzaCardActionsButton button {
   margin: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .pizzaGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 30px;
+  }
 }

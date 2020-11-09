@@ -5,6 +5,8 @@ import Nav from './components/nav';
 import GlobalContext from './components/global-context';
 
 const Home = lazy(() => import('./pages/index'));
+const Cart = lazy(() => import('./pages/cart'));
+const Orders = lazy(() => import('./pages/orders'));
 const Login = lazy(() => import('./pages/login'));
 const Signup = lazy(() => import('./pages/signup'));
 const Error = lazy(() => import('./pages/error'));
@@ -23,6 +25,8 @@ function App () {
             runOnMount
           >
             <Route exact path="/" component={Home}/>
+            <Route path="/cart" component={Cart}/>
+            <Route path="/orders" component={Orders}/>
             <Route path="/login" component={Login}/>
             <Route path="/signup" component={Signup}/>
             <Route path="*" component={Error}/>
