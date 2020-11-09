@@ -22,17 +22,6 @@ interface UserWithId extends User {
   _id: string
 }
 
-router.get('/users', async (req, res) => {
-  const Users = await getCollection<User>('users');
-  try {
-    const users = await Users.find({}).toArray();
-    res.json(users);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({error: e.name});
-  }
-});
-
 router.get('/profile', async (req, res) => {
   const token = req.headers['authorization'] || '';
   const auth = verifyAccessToken(token);
@@ -119,11 +108,5 @@ router.post('/login', (req, res) => {
     }
   });
 });
-
-// app.get('/api', (req, res) => {
-//   res.setHeader('Content-Type', 'text/html');
-//   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-//   res.end('Hello from API!');
-// });
 
 export default router;
