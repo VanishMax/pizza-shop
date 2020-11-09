@@ -30,3 +30,5 @@ router.get('/pizza', async (req, res) => {
     res.status(500).json({error: e.name});
   }
 });
+
+export default router;

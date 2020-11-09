@@ -13,3 +13,13 @@ export type UserContext = {
   token: string,
   user: User|null,
 }
+
+export type Pizza = {
+  title: string,
+  description: string,
+  photo: string,
+  price: {
+    usd: number,
+    eur: number,
+  },
+};
