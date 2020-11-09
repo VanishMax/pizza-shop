@@ -1,5 +1,6 @@
 .cartGrid {
   margin-top: 2rem;
+  padding-bottom: 2rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -130,7 +131,7 @@
     width: 25%;
     margin-top: 0;
     position: sticky;
-    top: 0;
+    top: 2rem;
   }
 
   .cartItem {

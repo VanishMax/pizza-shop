@@ -14,6 +14,10 @@ export default function Home () {
     });
   };
 
+  const isDisabled = (pizzaId: string) => {
+    return ctx.value.cart.some((item) => item.id === pizzaId);
+  };
+
   return (
     <section className={styles.pizzaGrid}>
       {ctx.pizzas.map((piece) => (
@@ -27,9 +31,10 @@ export default function Home () {
             <span>Price: <b>${piece.price.usd}</b></span>
             <Button
               className={styles.pizzaCardActionsButton}
+              disabled={isDisabled(piece._id)}
               clickHandler={() => addToCart(piece._id)}
             >
-              Add to cart
+              {isDisabled(piece._id) ? 'In the cart' : 'Add to cart'}
             </Button>
           </div>
         </Card>

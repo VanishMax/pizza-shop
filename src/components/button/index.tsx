@@ -8,6 +8,7 @@ type ButtonProps = {
   label?: string|JSX.Element,
   clickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void,
   className?: string,
+  disabled?: boolean,
 }
 
 export default function Button ({
@@ -16,10 +17,11 @@ export default function Button ({
   submit = false,
   className = '',
   children,
+  disabled = false,
 } : ComponentProps<ButtonProps>) {
 
   return (
-    <div className={composeClasses(styles.button, className)}>
+    <div className={composeClasses(styles.button, className, disabled ? styles.disabled : '')}>
       <button
         type={submit ? 'submit' : 'button'}
         onClick={(e) => clickHandler?.(e)}

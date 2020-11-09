@@ -80,8 +80,16 @@ export default function Cart () {
           </>
         ) : (
           <>
-            <h3>Your cart is still empty :(</h3>
-            <p>Start filling it in <Link to="/">the main page</Link></p>
+            {ctx.pizzas.length ? (
+              <>
+                <h3>Your cart is still empty :(</h3>
+                <p>Start filling it in <Link to="/">the main page</Link></p>
+              </>
+            ) : (
+              <>
+                <h3>The pizzas are loading. Please,wait...</h3>
+              </>
+            )}
           </>
         )}
       </Card>

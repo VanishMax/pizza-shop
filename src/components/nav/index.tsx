@@ -19,7 +19,12 @@ export default function Nav () {
       <nav>
         {!ctx.value.auth?.loading && (
           <>
-            <Link to="/cart">Cart</Link>
+            <Link to="/cart">
+              Cart
+              {ctx.value.cart.length && (
+                <span className={styles.badge}>{ctx.value.cart.length}</span>
+              )}
+            </Link>
             {ctx.value.auth?.user ? (
               <>
                 <a href="/orders">My orders</a>

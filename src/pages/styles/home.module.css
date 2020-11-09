@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 30px;
-  padding: 0 30px;
+  padding: 0 30px 2rem;
 }
 
 .pizzaCard {
@@ -27,11 +27,16 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.pizzaCardActions > span {
+  white-space: nowrap;
+}
+
 .pizzaCardActionsButton {
   width: auto;
 }
 
-.pizzaCardActionsButton button {
+.pizzaCardActionsButton > button {
   margin: 0;
 }
 
