@@ -3,7 +3,7 @@ import mongodb from 'mongodb';
 import getCollection from '../_utils/connection';
 import bcrypt from 'bcrypt';
 import parseRequest from '../_utils/parse-request';
-import {generateAccessToken} from '../_utils/tokens';
+import {generateAccessToken, verifyAccessToken} from '../_utils/tokens';
 
 const router = express.Router();
 
@@ -30,6 +30,20 @@ router.get('/users', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({error: e.name});
+  }
+});
+
+router.get('/profile', async (req, res) => {
+  const token = req.headers['authorization'] || '';
+  const auth = verifyAccessToken(token);
+  if (auth) {
+    const Users = await getCollection<User>('users');
+    const user = await Users.findOne({_id: new ObjectID(auth._id)}, {projection: {password: 0, _id: 0}});
+
+    if (user) res.json({token, user});
+    else res.status(401).json({error: 'Not allowed'});
+  } else {
+    res.status(401).json({error: 'Not allowed'});
   }
 });
 
@@ -104,10 +118,6 @@ router.post('/login', (req, res) => {
       }
     }
   });
-});
-
-router.get('/', async (req, res) => {
-  res.send('Hellooou');
 });
 
 // app.get('/api', (req, res) => {

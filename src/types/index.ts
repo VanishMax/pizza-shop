@@ -9,6 +9,7 @@ export type User = {
 }
 
 export type UserContext = {
+  loading?: boolean,
   token: string,
   user: User|null,
 }

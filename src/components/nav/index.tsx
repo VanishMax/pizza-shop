@@ -17,13 +17,17 @@ export default function Nav () {
         <img src="/icons/ps.png" alt="pizza shop logo" />
       </Link>
       <nav>
-        {ctx.value.auth?.user ? (
+        {!ctx.value.auth?.loading && (
           <>
-            <span>{ctx.value.auth.user.name}</span>
-            <a href="/logout" onClick={logout}>Log out</a>
+            {ctx.value.auth?.user ? (
+              <>
+                <span>{ctx.value.auth.user.name}</span>
+                <a href="/logout" onClick={logout}>Log out</a>
+              </>
+            ) : (
+              <Link to="/login">Login</Link>
+            )}
           </>
-        ) : (
-          <Link to="/login">Login</Link>
         )}
       </nav>
     </header>
