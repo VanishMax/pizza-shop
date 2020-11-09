@@ -6,11 +6,18 @@ import Button from '../components/button';
 import Form from '../components/form';
 import styles from './pages.module.css'
 import {FieldElemType} from './signup';
+import {User} from '../types';
+
+type Errors = {
+  email: string,
+  password: string,
+}
 
 export default function Login () {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [errors, setErrors] = useState({
+  const [bigError, setBigError] = useState<string>('');
+  const [errors, setErrors] = useState<Errors>({
     email: '',
     password: '',
   });
@@ -27,14 +34,33 @@ export default function Login () {
   };
 
   const setValue = (val: string, item: FieldElemType) => item.set(val);
-  const submit = () => {
+  const submit = async () => {
     let errs: {[key: string]: string} = {};
     fields.forEach((field) => errs[field.slug] = field.validate(field.val));
 
     const hasErrors = Object.values(errs).some((err) => !!err);
-    if (hasErrors) {
-      setErrors(errs as {email: string, password: string});
-      return;
+    setErrors(errs as Errors);
+    if (hasErrors) return;
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setBigError('');
+        console.log(data as {token: string, user: User});
+      } else {
+        if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
+        if (data?.error) setBigError(data.error as string);
+      }
+    } catch (e) {
+      console.error(e);
+      setBigError('An error occurred on the server');
     }
   };
 
@@ -84,6 +110,10 @@ export default function Login () {
         <Button className="mt-2 mb-1" submit>
           Log in
         </Button>
+
+        {bigError && (
+          <p className={styles.bigError}>{bigError}</p>
+        )}
       </Form>
     </Card>
   );

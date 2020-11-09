@@ -18,6 +18,9 @@ type User = {
   password: string,
   address: string,
 };
+interface UserWithId extends User {
+  _id: string
+}
 
 router.get('/users', async (req, res) => {
   const Users = await getCollection<User>('users');
@@ -59,6 +62,42 @@ router.post('/register', (req, res) => {
         const user = await Users.insertOne({...newUser, password: pass});
         const token = generateAccessToken(user.insertedId as unknown as string);
         res.json({token, user});
+      } catch (e) {
+        console.error(e);
+        res.status(500).json({error: e.name});
+      }
+    }
+  });
+});
+
+router.post('/login', (req, res) => {
+  parseRequest(req, res, async (body) => {
+    const Users = await getCollection<User>('users');
+    const {email, password} = body;
+
+    const fieldErrors = {name: '', email: '', address: '', password: '', passwordConfirm: ''};
+    if (!email) fieldErrors.email = 'Email field cannot be empty';
+    if (!password) fieldErrors.password = 'Password field cannot be empty';
+
+    const hasErrors = Object.values(fieldErrors).some((err) => !!err);
+    if (hasErrors) res.status(400).json({fieldErrors, error: ''});
+
+    else {
+      try {
+        const user: UserWithId|null = await Users.findOne({email: email});
+        if (user) {
+          if (bcrypt.compareSync(password, user.password)) {
+            const token = generateAccessToken(user._id as unknown as string);
+
+            const noPassUser: Omit<User, 'password'>&{password?: string} = {...user, password: undefined};
+            delete noPassUser.password;
+            res.json({token, user: noPassUser});
+          } else {
+            res.status(400).json({error: 'Incorrect password'});
+          }
+        } else {
+          res.status(400).json({error: 'This user does not exist'});
+        }
       } catch (e) {
         console.error(e);
         res.status(500).json({error: e.name});

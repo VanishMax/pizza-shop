@@ -122,10 +122,8 @@ export default function Signup () {
     fields.forEach((field) => errs[field.slug] = field.validate(field.val));
 
     const hasErrors = Object.values(errs).some((err) => !!err);
-    if (hasErrors) {
-      setErrors(errs as Errors);
-      return;
-    }
+    setErrors(errs as Errors);
+    if (hasErrors) return;
 
     try {
       const res = await fetch('/api/register', {
@@ -176,6 +174,10 @@ export default function Signup () {
         <Button className="mt-2 mb-1" submit>
           Sign up
         </Button>
+
+        {bigError && (
+          <p className={styles.bigError}>{bigError}</p>
+        )}
       </Form>
     </Card>
   );

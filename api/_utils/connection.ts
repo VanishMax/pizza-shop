@@ -17,7 +17,6 @@ const memoizedCollections: {[key: string]: mongodb.Collection} = {};
 async function getCollection<T> (name: string): Promise<mongodb.Collection<T>> {
   if (!database) await initPool();
 
-  console.log('memoized', Object.keys(memoizedCollections));
   if (memoizedCollections[name]) return memoizedCollections[name];
 
   const collection = await database.collection(name);
