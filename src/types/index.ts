@@ -15,6 +15,7 @@ export type UserContext = {
 }
 
 export type Pizza = {
+  _id: string,
   title: string,
   description: string,
   photo: string,
@@ -23,3 +24,8 @@ export type Pizza = {
     eur: number,
   },
 };
+
+export type CartEntity = {
+  id: string,
+  count: number,
+}

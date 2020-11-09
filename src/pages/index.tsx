@@ -1,30 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import type {Pizza} from '../types';
+import React, {useContext} from 'react';
 import Card from '../components/card';
 import Button from '../components/button';
 import styles from './pages.module.css';
+import {GlobalContext} from '../components/global-context';
 
 export default function Home () {
-  const [pizza, setPizza] = useState<Pizza[]>([]);
+  const ctx = useContext(GlobalContext);
 
-  const loadPizza = async () => {
-    const res = await fetch('/api/pizza');
-    try {
-      const data = await res.json();
-      console.log(data);
-      setPizza(data);
-    } catch (e) {
-      console.error(e);
-    }
+  const addToCart = (pizzaId: string) => {
+    ctx.set?.('cart', {
+      id: pizzaId,
+      count: 0,
+    });
   };
-
-  useEffect(() => {
-    loadPizza();
-  }, []);
 
   return (
     <div className={styles.pizzaGrid}>
-      {pizza.map((piece) => (
+      {ctx.pizzas.map((piece) => (
         <Card key={piece.title} className={styles.pizzaCard}>
           <img src={piece.photo} alt={piece.title} />
           <h3>{piece.title}</h3>
@@ -33,7 +25,12 @@ export default function Home () {
           <div className={styles.pizzaCardEmpty} />
           <div className={styles.pizzaCardActions}>
             <span>Price: <b>${piece.price.usd}</b></span>
-            <Button className={styles.pizzaCardActionsButton}>Add to cart</Button>
+            <Button
+              className={styles.pizzaCardActionsButton}
+              clickHandler={() => addToCart(piece._id)}
+            >
+              Add to cart
+            </Button>
           </div>
         </Card>
       ))}
