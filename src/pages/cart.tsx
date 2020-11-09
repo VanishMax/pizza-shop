@@ -5,10 +5,17 @@ import {GlobalContext} from '../components/global-context';
 import Card from '../components/card';
 import styles from './styles/cart.module.css';
 import Counter from '../components/counter';
+import Button from '../components/button';
 
 interface CartPizza extends CartEntity {
   pizza: Pizza
 }
+
+const DELIVERY_COST = {
+  usd: 1,
+  eur: 0.8,
+};
+const ADDED_TAX = 0.04;
 
 export default function Cart () {
   const ctx = useContext(GlobalContext);
@@ -31,6 +38,14 @@ export default function Cart () {
   const updateCounter = (id: string, count: number) => {
     ctx.set?.('cart', {id, count});
   };
+
+  const getSubtotalPrice = () => {
+    return pizzas.reduce((accum, item) => accum + (item.pizza.price.usd * item.count), 0);
+  };
+  const getTotalPrice = () => {
+    const subtotal = getSubtotalPrice();
+    return subtotal - DELIVERY_COST.usd - subtotal * ADDED_TAX;
+  }
 
   useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
 
@@ -69,10 +84,45 @@ export default function Cart () {
             <p>Start filling it in <Link to="/">the main page</Link></p>
           </>
         )}
-
       </Card>
+
       <Card className={styles.cartGridRight}>
-        <h2>Complete order</h2>
+        <h3>Complete order</h3>
+        <ul className={styles.cartPrice}>
+          {pizzas.map((item) => (
+            <li key={item.id}>
+              <span>{item.pizza.title}</span>
+              <span />
+              <span>${item.pizza.price.usd * item.count}</span>
+            </li>
+          ))}
+        </ul>
+        <ul className={styles.cartPrice}>
+          <li>
+            <span>Subtotal price</span>
+            <span />
+            <span>${Number(getSubtotalPrice()).toFixed(2)}</span>
+          </li>
+          <li>
+            <span>Delivery costs</span>
+            <span />
+            <span>${DELIVERY_COST.usd}</span>
+          </li>
+          <li>
+            <span>Value-added tax</span>
+            <span />
+            <span>{ADDED_TAX * 100}%</span>
+          </li>
+        </ul>
+        <ul className={styles.cartPrice}>
+          <li>
+            <span>Total cost</span>
+            <span />
+            <span>${Number(getTotalPrice()).toFixed(2)}</span>
+          </li>
+        </ul>
+
+        <Button>Make an order</Button>
       </Card>
     </section>
   );

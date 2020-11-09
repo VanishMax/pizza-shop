@@ -85,6 +85,28 @@
   top: 0;
 }
 
+.cartPrice {
+  margin: 0 0 1.5rem 0;
+  padding: 0 0 1rem;
+}
+.cartPrice:not(:last-of-type) {
+  border-bottom: 1px solid #b1b4cd;
+}
+
+.cartPrice li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.cartPrice li span:nth-child(2) {
+  border-bottom: 1px dotted #424567;
+  flex-grow: 1;
+  transform: translateY(-3px);
+  margin: 0 3px;
+}
+
 @media screen and (min-width: 1024px) {
   .cartGrid {
     flex-direction: row;
@@ -94,6 +116,14 @@
 
   .cartGridLeft {
     width: 70%;
+  }
+
+  .cartItem .calculator {
+    margin-top: 0;
+  }
+
+  .cartItem .description p {
+    display: none;
   }
 
   .cartGridRight {
