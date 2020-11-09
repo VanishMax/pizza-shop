@@ -28,6 +28,10 @@ export default function Cart () {
     });
   };
 
+  const updateCounter = (id: string, count: number) => {
+    ctx.set?.('cart', {id, count});
+  };
+
   useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
 
   return (
@@ -49,7 +53,7 @@ export default function Cart () {
                 <div className={styles.calculator}>
                   <div className={styles.counter}>
                     <span>Per unit: ${item.pizza.price.usd}</span>
-                    <Counter initialCount={item.count} />
+                    <Counter initialCount={item.count} changeHandler={(count) => updateCounter(item.id, count)} />
                   </div>
 
                   <div className={styles.price}>
