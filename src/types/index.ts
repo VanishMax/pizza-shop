@@ -13,3 +13,19 @@ export type UserContext = {
   token: string,
   user: User|null,
 }
+
+export type Pizza = {
+  _id: string,
+  title: string,
+  description: string,
+  photo: string,
+  price: {
+    usd: number,
+    eur: number,
+  },
+};
+
+export type CartEntity = {
+  id: string,
+  count: number,
+}

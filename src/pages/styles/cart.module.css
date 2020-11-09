@@ -1,0 +1,154 @@
+.cartGrid {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.cartGridRight {
+  margin-top: 1.5rem;
+}
+
+.cartItem {
+  position: relative;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cartItem:not(:last-child) {
+  border-bottom: 1px solid #b1b4cd;
+}
+
+.cartItem img {
+  height: 100%;
+  min-height: 65px;
+  width: auto;
+  border-radius: 0.5rem;
+}
+
+.cartItem .description {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartItem .description > div {
+  flex-grow: 1;
+}
+
+.cartItem .description h3, .cartItem .description p {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.cartItem .calculator {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cartItem .calculator .counter > span {
+  display: none;
+}
+
+.counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter span {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.price {
+  flex-grow: 1;
+  padding: 0 1rem 0 1rem;
+  margin-left: 1rem;
+  border-left: 1px solid #b1b4cd;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.remove {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+.cartPrice {
+  margin: 0 0 1.5rem 0;
+  padding: 0 0 1rem;
+}
+.cartPrice:not(:last-of-type) {
+  border-bottom: 1px solid #b1b4cd;
+}
+
+.cartPrice li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.cartPrice li span:nth-child(2) {
+  border-bottom: 1px dotted #424567;
+  flex-grow: 1;
+  transform: translateY(-3px);
+  margin: 0 3px;
+}
+
+@media screen and (min-width: 1024px) {
+  .cartGrid {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .cartGridLeft {
+    width: 70%;
+  }
+
+  .cartItem .calculator {
+    margin-top: 0;
+  }
+
+  .cartItem .description p {
+    display: none;
+  }
+
+  .cartGridRight {
+    width: 25%;
+    margin-top: 0;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .cartItem {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cartItem .calculator .counter > span {
+    display: block;
+  }
+
+  .price {
+    margin-left: 2rem;
+  }
+
+  .remove {
+    position: static;
+  }
+}
