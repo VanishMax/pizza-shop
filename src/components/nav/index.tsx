@@ -21,7 +21,7 @@ export default function Nav () {
           <>
             <Link to="/cart">
               Cart
-              {ctx.value.cart.length && (
+              {ctx.value.cart.length > 0 && (
                 <span className={styles.badge}>{ctx.value.cart.length}</span>
               )}
             </Link>

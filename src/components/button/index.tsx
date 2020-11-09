@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import styles from './button.module.css';
 import {ComponentProps} from '../../types';
 import composeClasses from '../compose-classes';
@@ -6,6 +7,7 @@ import composeClasses from '../compose-classes';
 type ButtonProps = {
   submit?: boolean,
   label?: string|JSX.Element,
+  link?: string,
   clickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void,
   className?: string,
   disabled?: boolean,
@@ -15,6 +17,7 @@ export default function Button ({
   clickHandler,
   label,
   submit = false,
+  link = '',
   className = '',
   children,
   disabled = false,
@@ -22,12 +25,18 @@ export default function Button ({
 
   return (
     <div className={composeClasses(styles.button, className, disabled ? styles.disabled : '')}>
-      <button
-        type={submit ? 'submit' : 'button'}
-        onClick={(e) => clickHandler?.(e)}
-      >
-        {children ? children : (label || '')}
-      </button>
+      {link ? (
+        <Link to={link}>
+          {children ? children : (label || '')}
+        </Link>
+      ) : (
+        <button
+          type={submit ? 'submit' : 'button'}
+          onClick={(e) => clickHandler?.(e)}
+        >
+          {children ? children : (label || '')}
+        </button>
+      )}
     </div>
   );
 }

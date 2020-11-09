@@ -4,10 +4,10 @@ import type {CartEntity, Pizza} from '../types';
 import {GlobalContext} from '../components/global-context';
 import Card from '../components/card';
 import styles from './styles/cart.module.css';
-import Counter from '../components/counter';
-import Button from '../components/button';
+import Receipt from '../components/cart/receipt';
+import CartItem from '../components/cart/item';
 
-interface CartPizza extends CartEntity {
+export interface CartPizza extends CartEntity {
   pizza: Pizza
 }
 
@@ -20,6 +20,7 @@ const ADDED_TAX = 0.04;
 export default function Cart () {
   const ctx = useContext(GlobalContext);
   const [pizzas, setPizzas] = useState<CartPizza[]>([]);
+  const [isOrder, setOrder] = useState<boolean>(false);
 
   const updateCartPizzas = () => {
     if (ctx.pizzas.length) setPizzas(ctx.value.cart.map((item) => ({
@@ -45,7 +46,7 @@ export default function Cart () {
   const getTotalPrice = () => {
     const subtotal = getSubtotalPrice();
     return subtotal - DELIVERY_COST.usd - subtotal * ADDED_TAX;
-  }
+  };
 
   useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
 
@@ -55,27 +56,12 @@ export default function Cart () {
         {pizzas.length > 0 ? (
           <>
             {pizzas.map((item) => (
-              <div key={item.id} className={styles.cartItem}>
-                <div className={styles.description}>
-                  <div className={styles.remove} onClick={() => removeFromCart(item.id)}>✖</div>
-                  <img src={item.pizza.photo} alt={item.pizza.title} />
-                  <div>
-                    <h3>{item.pizza.title}</h3>
-                    <p>${item.pizza.price.usd} each</p>
-                  </div>
-                </div>
-
-                <div className={styles.calculator}>
-                  <div className={styles.counter}>
-                    <span>Per unit: ${item.pizza.price.usd}</span>
-                    <Counter initialCount={item.count} changeHandler={(count) => updateCounter(item.id, count)} />
-                  </div>
-
-                  <div className={styles.price}>
-                    Total:&nbsp;<b>${item.pizza.price.usd * item.count}</b>
-                  </div>
-                </div>
-              </div>
+              <CartItem
+                key={item.id}
+                item={item}
+                removeFromCart={removeFromCart}
+                updateCounter={updateCounter}
+              />
             ))}
           </>
         ) : (
@@ -87,51 +73,20 @@ export default function Cart () {
               </>
             ) : (
               <>
-                <h3>The pizzas are loading. Please,wait...</h3>
+                <h3>The pizzas are loading. Please, wait...</h3>
               </>
             )}
           </>
         )}
       </Card>
 
-      <Card className={styles.cartGridRight}>
-        <h3>Complete order</h3>
-        <ul className={styles.cartPrice}>
-          {pizzas.map((item) => (
-            <li key={item.id}>
-              <span>{item.pizza.title}</span>
-              <span />
-              <span>${item.pizza.price.usd * item.count}</span>
-            </li>
-          ))}
-        </ul>
-        <ul className={styles.cartPrice}>
-          <li>
-            <span>Subtotal price</span>
-            <span />
-            <span>${Number(getSubtotalPrice()).toFixed(2)}</span>
-          </li>
-          <li>
-            <span>Delivery costs</span>
-            <span />
-            <span>${DELIVERY_COST.usd}</span>
-          </li>
-          <li>
-            <span>Value-added tax</span>
-            <span />
-            <span>{ADDED_TAX * 100}%</span>
-          </li>
-        </ul>
-        <ul className={styles.cartPrice}>
-          <li>
-            <span>Total cost</span>
-            <span />
-            <span>${Number(getTotalPrice()).toFixed(2)}</span>
-          </li>
-        </ul>
-
-        <Button>Make an order</Button>
-      </Card>
+      <Receipt
+        pizzas={pizzas}
+        delivery={'$' + DELIVERY_COST.usd}
+        tax={DELIVERY_COST.usd + '%'}
+        subtotal={'$' + Number(getSubtotalPrice()).toFixed(2)}
+        total={'$' + Number(getTotalPrice()).toFixed(2)}
+      />
     </section>
   );
 }
