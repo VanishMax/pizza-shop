@@ -6,6 +6,7 @@ import Card from '../components/card';
 import styles from './styles/cart.module.css';
 import Receipt from '../components/cart/receipt';
 import CartItem from '../components/cart/item';
+import OrderForm from '../components/cart/order-form';
 
 export interface CartPizza extends CartEntity {
   pizza: Pizza
@@ -20,7 +21,7 @@ const ADDED_TAX = 0.04;
 export default function Cart () {
   const ctx = useContext(GlobalContext);
   const [pizzas, setPizzas] = useState<CartPizza[]>([]);
-  const [isOrder, setOrder] = useState<boolean>(false);
+  const [isOrderView, setOrderView] = useState<boolean>(false);
 
   const updateCartPizzas = () => {
     if (ctx.pizzas.length) setPizzas(ctx.value.cart.map((item) => ({
@@ -55,14 +56,20 @@ export default function Cart () {
       <Card className={styles.cartGridLeft}>
         {pizzas.length > 0 ? (
           <>
-            {pizzas.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-                removeFromCart={removeFromCart}
-                updateCounter={updateCounter}
-              />
-            ))}
+            {isOrderView ? (
+              <OrderForm />
+            ) : (
+              <>
+                {pizzas.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    item={item}
+                    removeFromCart={removeFromCart}
+                    updateCounter={updateCounter}
+                  />
+                ))}
+              </>
+            )}
           </>
         ) : (
           <>
@@ -86,6 +93,8 @@ export default function Cart () {
         tax={DELIVERY_COST.usd + '%'}
         subtotal={'$' + Number(getSubtotalPrice()).toFixed(2)}
         total={'$' + Number(getTotalPrice()).toFixed(2)}
+        orderView={isOrderView}
+        changeOrder={() => setOrderView(!isOrderView)}
       />
     </section>
   );

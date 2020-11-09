@@ -1,0 +1,10 @@
+.order {}
+.heading {
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .order {
+    max-width: 500px;
+  }
+}

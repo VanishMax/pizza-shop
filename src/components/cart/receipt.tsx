@@ -10,10 +10,12 @@ export default function Receipt ({
   total,
   delivery,
   tax,
-}: {pizzas: CartPizza[], subtotal: string, total: string, delivery: string, tax: string}) {
+  orderView,
+  changeOrder,
+}: {pizzas: CartPizza[], subtotal: string, total: string, delivery: string, tax: string, orderView: boolean, changeOrder: () => void }) {
   return (
     <Card className={styles.cartGridRight}>
-      <h3>Complete order</h3>
+      <h3>Order receipt</h3>
       <ul className={styles.cartPrice}>
         {pizzas.map((item) => (
           <li key={item.id}>
@@ -48,7 +50,12 @@ export default function Receipt ({
         </li>
       </ul>
 
-      <Button disabled={!pizzas.length}>Make an order</Button>
+      <Button
+        disabled={!pizzas.length}
+        clickHandler={changeOrder}
+      >
+        {orderView ? 'See the cart' : 'Make an order'}
+      </Button>
     </Card>
   );
 }
