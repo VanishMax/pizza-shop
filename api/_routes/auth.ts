@@ -1,6 +1,9 @@
 import express from 'express';
 import mongodb from 'mongodb';
 import getCollection from '../_utils/connection';
+import bcrypt from 'bcrypt';
+import parseRequest from '../_utils/parse-request';
+import {generateAccessToken} from '../_utils/tokens';
 
 const router = express.Router();
 
@@ -10,11 +13,14 @@ ObjectID.prototype.valueOf = function () {
 };
 
 type User = {
-  _id: string,
+  name: string,
+  email: string,
+  password: string,
+  address: string,
 };
 
 router.get('/users', async (req, res) => {
-  const Users: mongodb.Collection<User> = await getCollection('users');
+  const Users = await getCollection<User>('users');
   try {
     const users = await Users.find({}).toArray();
     res.json(users);
@@ -22,6 +28,43 @@ router.get('/users', async (req, res) => {
     console.error(e);
     res.status(500).json({error: e.name});
   }
+});
+
+router.post('/register', (req, res) => {
+  parseRequest(req, res, async (body) => {
+    const Users = await getCollection<User>('users');
+    const {name, email, address, password, passwordConfirm} = body;
+
+    const fieldErrors = {name: '', email: '', address: '', password: '', passwordConfirm: ''};
+    if (!name) fieldErrors.name = 'Name field cannot be empty';
+    else if (name.match(/[^A-Za-z ]/)) fieldErrors.name = 'Names can have only English letters or spaces';
+    else if (name && name.length < 3) fieldErrors.name = 'Name is too short';
+
+    if (!email) fieldErrors.email = 'Email field cannot be empty';
+    else if (!email.match(/[^@]+@[^.]+\.[a-zA-Z]+/i)) fieldErrors.email = 'Wrong email format';
+    else if (await Users.findOne({email: email})) fieldErrors.email = 'Such email already exists';
+
+    if (!password) fieldErrors.password = 'Password field cannot be empty';
+    else if (password.length < 8 || !password.match(/[a-zA-Z]/)) fieldErrors.password = 'Password should be longer than 8 characters and contain both numbers and English letters';
+
+    if (!passwordConfirm) fieldErrors.password = 'Password confirmation field cannot be empty';
+    else if (passwordConfirm !== password) fieldErrors.password = 'Passwords do not match';
+
+    const hasErrors = Object.values(fieldErrors).some((err) => !!err);
+    if (hasErrors) res.status(400).json({fieldErrors, error: ''});
+    else {
+      try {
+        const pass = bcrypt.hashSync(password, 13);
+        const newUser = {name, email, address};
+        const user = await Users.insertOne({...newUser, password: pass});
+        const token = generateAccessToken(user.insertedId as unknown as string);
+        res.json({token, user});
+      } catch (e) {
+        console.error(e);
+        res.status(500).json({error: e.name});
+      }
+    }
+  });
 });
 
 router.get('/', async (req, res) => {

@@ -5,6 +5,7 @@ import Button from '../components/button';
 import Card from '../components/card';
 import styles from './pages.module.css';
 import {Link} from 'react-router-dom';
+import {User} from '../types';
 
 export type FieldElemType = {
   slug: string,
@@ -17,13 +18,22 @@ export type FieldElemType = {
   notRequired?: boolean,
 };
 
+type Errors = {
+  name: string,
+  email: string,
+  address: string,
+  password: string,
+  passwordConfirm: string,
+}
+
 export default function Signup () {
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-  const [errors, setErrors] = useState({
+  const [bigError, setBigError] = useState<string>('');
+  const [errors, setErrors] = useState<Errors>({
     name: '',
     address: '',
     email: '',
@@ -107,12 +117,38 @@ export default function Signup () {
     },
   ];
 
-  const submit = () => {
-    fields.forEach((field) => {
-      setErrors({...errors, [field.slug]: field.validate(field.val)});
-    });
-    const hasErrors = Object.values(errors).some((err) => !!err);
-    if (hasErrors) return;
+  const submit = async () => {
+    let errs: {[key: string]: string} = {};
+    fields.forEach((field) => errs[field.slug] = field.validate(field.val));
+
+    const hasErrors = Object.values(errs).some((err) => !!err);
+    if (hasErrors) {
+      setErrors(errs as Errors);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          name,
+          email,
+          address,
+          password,
+          passwordConfirm,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        console.log(data as {token: string, user: User});
+      } else {
+        if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
+        if (data?.error) setBigError(data.error as string);
+      }
+    } catch (e) {
+      console.error(e);
+      setBigError('An error occurred on the server');
+    }
   };
 
   return (

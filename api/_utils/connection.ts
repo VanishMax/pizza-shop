@@ -6,13 +6,23 @@ let database: mongodb.Db;
 
 async function initPool () {
   const url = process.env.MONGO_URI || '';
-  const client = await MongoClient.connect(url, { useUnifiedTopology: true, useNewUrlParser: true });
+  const client = await MongoClient.connect(url, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
   database = await client.db('pizza-shop');
 }
 
-async function getCollection (name: string) {
+const memoizedCollections: {[key: string]: mongodb.Collection} = {};
+async function getCollection<T> (name: string): Promise<mongodb.Collection<T>> {
   if (!database) await initPool();
-  return database.collection(name);
+
+  console.log('memoized', Object.keys(memoizedCollections));
+  if (memoizedCollections[name]) return memoizedCollections[name];
+
+  const collection = await database.collection(name);
+  memoizedCollections[name] = collection;
+  return collection;
 }
 
 export default getCollection;
