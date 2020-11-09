@@ -7,3 +7,8 @@ export type User = {
   email: string,
   address: string,
 }
+
+export type UserContext = {
+  token: string,
+  user: User,
+}
