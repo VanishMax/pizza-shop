@@ -3,7 +3,7 @@ import Form from '../components/form';
 import FormInput, {InputTypeEnum} from '../components/form-input';
 import Button from '../components/button';
 import Card from '../components/card';
-import styles from './pages.module.css';
+import styles from './styles/form.module.css';
 import {Link, useHistory} from 'react-router-dom';
 import {User} from '../types';
 import {GlobalContext} from '../components/global-context';

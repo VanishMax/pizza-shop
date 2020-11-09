@@ -4,7 +4,7 @@ import Card from '../components/card';
 import FormInput from '../components/form-input';
 import Button from '../components/button';
 import Form from '../components/form';
-import styles from './pages.module.css'
+import styles from './styles/form.module.css'
 import {FieldElemType} from './signup';
 import {User} from '../types';
 import {GlobalContext} from '../components/global-context';

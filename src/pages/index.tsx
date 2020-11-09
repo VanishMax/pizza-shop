@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import Card from '../components/card';
 import Button from '../components/button';
-import styles from './pages.module.css';
+import styles from './styles/home.module.css';
 import {GlobalContext} from '../components/global-context';
 
 export default function Home () {
@@ -15,7 +15,7 @@ export default function Home () {
   };
 
   return (
-    <div className={styles.pizzaGrid}>
+    <section className={styles.pizzaGrid}>
       {ctx.pizzas.map((piece) => (
         <Card key={piece.title} className={styles.pizzaCard}>
           <img src={piece.photo} alt={piece.title} />
@@ -34,6 +34,6 @@ export default function Home () {
           </div>
         </Card>
       ))}
-    </div>
+    </section>
   );
 }
