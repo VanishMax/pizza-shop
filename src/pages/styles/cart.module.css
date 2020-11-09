@@ -1,4 +1,5 @@
 .cartGrid {
+  margin-top: 2rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -9,17 +10,10 @@
 }
 
 .cartItem {
-  height: 100px;
+  position: relative;
   padding: 1rem 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cartItem h3 {
-  flex-grow: 1;
-  text-align: left;
-  padding-left: 1rem;
+  flex-direction: column;
 }
 
 .cartItem:not(:last-child) {
@@ -28,11 +22,61 @@
 
 .cartItem img {
   height: 100%;
+  min-height: 65px;
   width: auto;
+  border-radius: 0.5rem;
+}
+
+.cartItem .description {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartItem .description > div {
+  flex-grow: 1;
+}
+
+.cartItem .description h3, .cartItem .description p {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.cartItem .calculator {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cartItem .calculator .counter > span {
+  display: none;
+}
+
+.counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter span {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.price {
+  flex-grow: 1;
+  padding: 0 1rem 0 1rem;
+  margin-left: 1rem;
+  border-left: 1px solid #b1b4cd;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (min-width: 1024px) {
   .cartGrid {
+    flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
   }
@@ -46,5 +90,19 @@
     margin-top: 0;
     position: sticky;
     top: 0;
+  }
+
+  .cartItem {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cartItem .calculator .counter > span {
+    display: block;
+  }
+
+  .price {
+    margin-left: 2rem;
   }
 }
