@@ -2,6 +2,8 @@ import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import styles from './nav.module.css';
 import {GlobalContext} from '../global-context';
+import Button from '../button';
+import getCurrency from '../get-currency';
 
 export default function Nav () {
   const ctx = useContext(GlobalContext);
@@ -9,6 +11,10 @@ export default function Nav () {
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
     ctx.set?.('auth', null);
+  };
+
+  const changeCurrency = () => {
+    ctx.set?.('currency', ctx.value.currency === 'usd' ? 'eur' : 'usd');
   };
 
   return (
@@ -33,6 +39,9 @@ export default function Nav () {
             ) : (
               <Link to="/login">Login</Link>
             )}
+            <Button clickHandler={changeCurrency}>
+              Use {getCurrency(ctx.value.currency === 'usd' ? 'eur' : 'usd', '')}
+            </Button>
           </>
         )}
       </nav>

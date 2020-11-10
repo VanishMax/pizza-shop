@@ -3,6 +3,8 @@ import Button from '../button';
 import Card from '../card';
 import React from 'react';
 import {CartPizza} from '../../pages/cart';
+import {Currency} from '../global-context';
+import getCurrency from '../get-currency';
 
 export default function Receipt ({
   pizzas,
@@ -11,8 +13,9 @@ export default function Receipt ({
   delivery,
   tax,
   orderView,
+  currency,
   changeOrder,
-}: {pizzas: CartPizza[], subtotal: string, total: string, delivery: string, tax: string, orderView: boolean, changeOrder: () => void }) {
+}: {pizzas: CartPizza[], subtotal: string, total: string, delivery: string, tax: string, orderView: boolean, currency: Currency|null, changeOrder: () => void }) {
   return (
     <Card className={styles.cartGridRight}>
       <h3>Order receipt</h3>
@@ -21,7 +24,7 @@ export default function Receipt ({
           <li key={item.id}>
             <span>{item.pizza.title}</span>
             <span />
-            <span>${item.pizza.price.usd * item.count}</span>
+            <span>{getCurrency(currency, '')}{item.pizza.price[currency || 'usd'] * item.count}</span>
           </li>
         ))}
       </ul>

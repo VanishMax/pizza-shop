@@ -2,12 +2,15 @@ import styles from './styles/item.module.css';
 import Counter from '../counter';
 import React from 'react';
 import {CartPizza} from '../../pages/cart';
+import {Currency} from '../global-context';
+import getCurrency from '../get-currency';
 
 export default function CartItem ({
   item,
+  currency,
   removeFromCart,
   updateCounter,
-}: {item: CartPizza, removeFromCart: (id: string) => void, updateCounter: (id: string, count: number) => void}) {
+}: {item: CartPizza, currency: Currency|null, removeFromCart: (id: string) => void, updateCounter: (id: string, count: number) => void}) {
 
   return (
     <div className={styles.cartItem}>
@@ -16,18 +19,18 @@ export default function CartItem ({
         <img src={item.pizza.photo} alt={item.pizza.title} />
         <div>
           <h3>{item.pizza.title}</h3>
-          <p>${item.pizza.price.usd} each</p>
+          <p>{getCurrency(currency, item.pizza.price)} each</p>
         </div>
       </div>
 
       <div className={styles.calculator}>
         <div className={styles.counter}>
-          <span>Per unit: ${item.pizza.price.usd}</span>
+          <span>Per unit: {getCurrency(currency, item.pizza.price)}</span>
           <Counter initialCount={item.count} changeHandler={(count) => updateCounter(item.id, count)} />
         </div>
 
         <div className={styles.price}>
-          Total:&nbsp;<b>${item.pizza.price.usd * item.count}</b>
+          Total:&nbsp;<b>{getCurrency(currency, '')}{item.pizza.price[currency || 'usd'] * item.count}</b>
         </div>
       </div>
     </div>
