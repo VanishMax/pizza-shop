@@ -57,7 +57,7 @@ export default function Cart () {
         {pizzas.length > 0 ? (
           <>
             {isOrderView ? (
-              <OrderForm />
+              <OrderForm finalPrice={'$' + Number(getTotalPrice()).toFixed(2)} />
             ) : (
               <>
                 {pizzas.map((item) => (
