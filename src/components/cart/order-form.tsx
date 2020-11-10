@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {GlobalContext} from '../global-context';
 import type {FieldElemType} from '../../pages/signup';
-import type {User} from '../../types';
 import request from '../../api';
 import FormInput from '../form-input';
 import Form from '../form';
