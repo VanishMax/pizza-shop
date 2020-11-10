@@ -6,6 +6,7 @@ export type User = {
   name: string,
   email: string,
   address: string,
+  orders: string[],
 }
 
 export type UserContext = {
@@ -29,3 +30,18 @@ export type CartEntity = {
   id: string,
   count: number,
 }
+
+export type Order = {
+  name: string,
+  address: string,
+  finalPrice: string,
+  user: User,
+  date: string,
+  orders: PizzaOrder[],
+};
+
+export type PizzaOrder = {
+  id: string,
+  count: number,
+  pizza: Pizza,
+};

@@ -22,7 +22,7 @@ const defaultContextValue = {
   cart: [],
 };
 
-export const GlobalContext = createContext<GlobalContextType<keyof GlobalContextValueType>>({
+export const GlobalContext = createContext<GlobalContextType<(keyof GlobalContextValueType)|'orders'>>({
   value: defaultContextValue,
   set: null,
   pizzas: [],
@@ -39,11 +39,24 @@ export default function Context ({children}: ComponentProps<{}>) {
       setAuth(value);
       return value;
     },
+    orders: (value: string) => {
+      if (auth?.user) {
+        const usr: UserContext = {...auth, user: {...auth.user, orders: [...(auth?.user?.orders || []), value]}}
+        setAuth(usr);
+        return usr;
+      }
+      return auth;
+    },
     currency: (value: string|null) => {
       setCurrency(value);
       return;
     },
-    cart: (value: CartEntity) => {
+    cart: (value: CartEntity|null) => {
+      if (value === null) {
+        setCart([]);
+        return [];
+      }
+
       const isInTheCart = cart.some((item) => item.id === value.id);
       let newValue: CartEntity[];
       if (isInTheCart) {
@@ -60,7 +73,7 @@ export default function Context ({children}: ComponentProps<{}>) {
     },
   };
 
-  const setField = (field: keyof GlobalContextValueType, value: any) => {
+  const setField = (field: (keyof GlobalContextValueType)|'orders', value: any) => {
     const newValue = setter[field](value);
     localStorage.setItem(LocalStorageItem, JSON.stringify({
       ...{auth, currency, cart},
@@ -68,7 +81,7 @@ export default function Context ({children}: ComponentProps<{}>) {
     }))
   };
 
-  const val: GlobalContextType<keyof GlobalContextValueType> = {
+  const val: GlobalContextType<(keyof GlobalContextValueType)|'orders'> = {
     value: {
       auth,
       currency,

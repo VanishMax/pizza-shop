@@ -12,6 +12,8 @@
 
 .nav nav {
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .nav a {
@@ -21,6 +23,7 @@
   text-decoration: none;
   border-bottom: 2px solid transparent;
   transition: border-bottom-color .3s;
+  white-space: nowrap;
 }
 
 nav a:hover {

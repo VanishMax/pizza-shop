@@ -1,6 +1,6 @@
 import React, {Suspense, lazy} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
+import {AnimatedSwitch} from 'react-router-transition';
 import Nav from './components/nav';
 import GlobalContext from './components/global-context';
 
@@ -24,12 +24,12 @@ function App () {
             atActive={{ opacity: 1 }}
             runOnMount
           >
-            <Route exact path="/" component={Home}/>
-            <Route path="/cart" component={Cart}/>
-            <Route path="/orders" component={Orders}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/signup" component={Signup}/>
-            <Route path="*" component={Error}/>
+            <Route exact path="/" component={Home} />
+            <Route path="/orders" component={Orders} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="*" component={Error} />
           </AnimatedSwitch>
         </Suspense>
       </GlobalContext>

@@ -9,7 +9,7 @@ ObjectID.prototype.valueOf = function () {
   return this.toString();
 };
 
-type Pizza = {
+export type Pizza = {
   title: string,
   description: string,
   photo: string,

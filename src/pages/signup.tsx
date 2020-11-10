@@ -25,7 +25,7 @@ type Errors = {
   address: string,
   password: string,
   passwordConfirm: string,
-}
+};
 
 export default function Signup () {
   const ctx = useContext(GlobalContext);

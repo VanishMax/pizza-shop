@@ -20,25 +20,33 @@ export default function Home () {
 
   return (
     <section className={styles.pizzaGrid}>
-      {ctx.pizzas.map((piece) => (
-        <Card key={piece.title} className={styles.pizzaCard}>
-          <img src={piece.photo} alt={piece.title} />
-          <h3>{piece.title}</h3>
-          <p>{piece.description}</p>
+      <>
+        {ctx.pizzas.length ? (
+          <>
+            {ctx.pizzas.map((piece) => (
+              <Card key={piece.title} className={styles.pizzaCard}>
+                <img src={piece.photo} alt={piece.title} />
+                <h3>{piece.title}</h3>
+                <p>{piece.description}</p>
 
-          <div className={styles.pizzaCardEmpty} />
-          <div className={styles.pizzaCardActions}>
-            <span>Price: <b>${piece.price.usd}</b></span>
-            <Button
-              className={styles.pizzaCardActionsButton}
-              disabled={isDisabled(piece._id)}
-              clickHandler={() => addToCart(piece._id)}
-            >
-              {isDisabled(piece._id) ? 'In the cart' : 'Add to cart'}
-            </Button>
-          </div>
-        </Card>
-      ))}
+                <div className={styles.pizzaCardEmpty} />
+                <div className={styles.pizzaCardActions}>
+                  <span>Price: <b>${piece.price.usd}</b></span>
+                  <Button
+                    className={styles.pizzaCardActionsButton}
+                    disabled={isDisabled(piece._id)}
+                    clickHandler={() => addToCart(piece._id)}
+                  >
+                    {isDisabled(piece._id) ? 'In the cart' : 'Add to cart'}
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </>
+        ) : (
+          <h2>Loading all pizzas. Please, wait...</h2>
+        )}
+      </>
     </section>
   );
 }

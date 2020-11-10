@@ -4,10 +4,10 @@ import Card from '../components/card';
 import FormInput from '../components/form-input';
 import Button from '../components/button';
 import Form from '../components/form';
-import styles from './styles/form.module.css'
 import {FieldElemType} from './signup';
 import {User} from '../types';
 import {GlobalContext} from '../components/global-context';
+import styles from './styles/form.module.css'
 
 type Errors = {
   email: string,
