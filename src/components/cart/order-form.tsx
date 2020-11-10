@@ -88,7 +88,7 @@ export default function OrderForm ({
     if (hasErrors) return;
 
     try {
-      const res = await request('/api/order', {
+      const res = await request('/api/orders', {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -104,7 +104,7 @@ export default function OrderForm ({
         setBigError('');
 
         ctx.set?.('orders', data.id as {id: string});
-        ctx.set?.('cart', []);
+        ctx.set?.('cart', null);
         routerHistory.push('/orders');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);

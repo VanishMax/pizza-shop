@@ -51,7 +51,12 @@ export default function Context ({children}: ComponentProps<{}>) {
       setCurrency(value);
       return;
     },
-    cart: (value: CartEntity) => {
+    cart: (value: CartEntity|null) => {
+      if (value === null) {
+        setCart([]);
+        return [];
+      }
+
       const isInTheCart = cart.some((item) => item.id === value.id);
       let newValue: CartEntity[];
       if (isInTheCart) {

@@ -12,7 +12,7 @@ ObjectID.prototype.valueOf = function () {
   return this.toString();
 };
 
-type User = {
+export type User = {
   name: string,
   email: string,
   password: string,

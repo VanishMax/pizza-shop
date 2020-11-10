@@ -1,8 +1,10 @@
 import express from 'express';
 import mongodb, {WithId} from 'mongodb';
+import type {Pizza} from './pizzas';
+import type {User} from './auth';
 import getCollection from '../_utils/connection';
 import parseRequest from '../_utils/parse-request';
-import {User} from '../../src/types';
+import {verifyAccessToken} from '../_utils/tokens';
 
 const router = express.Router();
 
@@ -17,14 +19,43 @@ type Order = {
   address: string,
   finalPrice: string,
   userId: string|null,
+  user?: User,
+  date: string,
   orders: {
     id: string,
     count: number,
+    pizza: Pizza,
   }[],
 };
 
+router.get('/orders', async (req, res) => {
+  const Orders = await getCollection<Order>('orders');
+  const Users = await getCollection<WithId<User>>('users');
+  const Pizzas = await getCollection<Pizza>('pizzas');
 
-router.post('/order', (req, res) => {
+  const token = req.headers['authorization'] || '';
+  const auth = verifyAccessToken(token);
+  if (auth) {
+    const user = await Users.findOne({_id: new ObjectID(auth._id)}, {projection: {password: 0, orders: 0}});
+    if (user) {
+      const rawOrders = await (await Orders.find({userId: user._id.toString()})).toArray();
+      const orders = await Promise.all(rawOrders.map(async (ord) => {
+        ord.user = user;
+        ord.orders = await Promise.all(ord.orders.map(async (aga) => {
+          aga.pizza = (await Pizzas.findOne({_id: new ObjectID(aga.id)})) as Pizza;
+          return aga;
+        }));
+        return ord;
+      }));
+      res.status(200).json({orders});
+    }
+    else res.status(401).json({error: 'Not allowed'});
+  } else {
+
+  }
+});
+
+router.post('/orders', (req, res) => {
   parseRequest(req, res, async (body) => {
     const Orders = await getCollection<Order>('orders');
     const Users = await getCollection<WithId<User>>('users');
@@ -54,6 +85,7 @@ router.post('/order', (req, res) => {
           address,
           finalPrice,
           orders,
+          date: new Date().toString(),
           userId: null,
         };
 
