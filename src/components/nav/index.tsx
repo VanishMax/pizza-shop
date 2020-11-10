@@ -27,7 +27,7 @@ export default function Nav () {
             </Link>
             {ctx.value.auth?.user ? (
               <>
-                <a href="/orders">My orders</a>
+                <Link to="/orders">My orders</Link>
                 <a href="/logout" onClick={logout}>Log out</a>
               </>
             ) : (

@@ -29,29 +29,33 @@ type Order = {
 };
 
 router.get('/orders', async (req, res) => {
-  const Orders = await getCollection<Order>('orders');
-  const Users = await getCollection<WithId<User>>('users');
-  const Pizzas = await getCollection<Pizza>('pizzas');
+  try {
+    const Orders = await getCollection<Order>('orders');
+    const Users = await getCollection<WithId<User>>('users');
+    const Pizzas = await getCollection<Pizza>('pizzas');
 
-  const token = req.headers['authorization'] || '';
-  const auth = verifyAccessToken(token);
-  if (auth) {
-    const user = await Users.findOne({_id: new ObjectID(auth._id)}, {projection: {password: 0, orders: 0}});
-    if (user) {
-      const rawOrders = await (await Orders.find({userId: user._id.toString()})).toArray();
-      const orders = await Promise.all(rawOrders.map(async (ord) => {
-        ord.user = user;
-        ord.orders = await Promise.all(ord.orders.map(async (aga) => {
-          aga.pizza = (await Pizzas.findOne({_id: new ObjectID(aga.id)})) as Pizza;
-          return aga;
+    const token = req.headers['authorization'] || '';
+    const auth = verifyAccessToken(token);
+    if (auth) {
+      const user = await Users.findOne({_id: new ObjectID(auth._id)}, {projection: {password: 0, orders: 0}});
+      if (user) {
+        const rawOrders = await (await Orders.find({userId: user._id.toString()})).toArray();
+        const orders = await Promise.all(rawOrders.map(async (ord) => {
+          ord.user = user;
+          ord.orders = await Promise.all(ord.orders.map(async (aga) => {
+            aga.pizza = (await Pizzas.findOne({_id: new ObjectID(aga.id)})) as Pizza;
+            return aga;
+          }));
+          return ord;
         }));
-        return ord;
-      }));
-      res.status(200).json({orders});
+        res.status(200).json({orders});
+      }
+      else res.status(401).json({error: 'Not allowed'});
+    } else {
+      res.status(401).json({error: 'Not allowed'});
     }
-    else res.status(401).json({error: 'Not allowed'});
-  } else {
-
+  } catch (e) {
+    res.status(500).end();
   }
 });
 
