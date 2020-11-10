@@ -3,6 +3,7 @@ import Card from '../components/card';
 import Button from '../components/button';
 import styles from './styles/home.module.css';
 import {GlobalContext} from '../components/global-context';
+import getCurrency from '../components/get-currency';
 
 export default function Home () {
   const ctx = useContext(GlobalContext);
@@ -31,7 +32,9 @@ export default function Home () {
 
                 <div className={styles.pizzaCardEmpty} />
                 <div className={styles.pizzaCardActions}>
-                  <span>Price: <b>${piece.price.usd}</b></span>
+                  <span>
+                    Price: <b>{getCurrency(ctx.value.currency, piece.price)}</b>
+                  </span>
                   <Button
                     className={styles.pizzaCardActionsButton}
                     disabled={isDisabled(piece._id)}

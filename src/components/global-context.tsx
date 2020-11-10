@@ -6,7 +6,7 @@ export const LocalStorageItem = 'pizza-shop';
 
 type GlobalContextValueType = {
   auth: UserContext|null,
-  currency: string|null,
+  currency: Currency|null,
   cart: CartEntity[],
 }
 
@@ -28,9 +28,12 @@ export const GlobalContext = createContext<GlobalContextType<(keyof GlobalContex
   pizzas: [],
 });
 
+export type Currency = 'usd'|'eur';
+const DEFAULT_CURRENCY: Currency = 'usd';
+
 export default function Context ({children}: ComponentProps<{}>) {
   const [auth, setAuth] = useState<UserContext|null>(null);
-  const [currency, setCurrency] = useState<string|null>(null);
+  const [currency, setCurrency] = useState<Currency|null>(null);
   const [cart, setCart] = useState<CartEntity[]>([]);
   const [pizza, setPizza] = useState<Pizza[]>([]);
 
@@ -47,7 +50,7 @@ export default function Context ({children}: ComponentProps<{}>) {
       }
       return auth;
     },
-    currency: (value: string|null) => {
+    currency: (value: Currency|null) => {
       setCurrency(value);
       return;
     },
@@ -117,7 +120,7 @@ export default function Context ({children}: ComponentProps<{}>) {
     loadPizza();
 
     const data: GlobalContextValueType = JSON.parse(localStorage.getItem(LocalStorageItem) || JSON.stringify(defaultContextValue));
-    setCurrency(data.currency);
+    setCurrency(data.currency as Currency || DEFAULT_CURRENCY);
     setCart(data.cart);
 
     if (data.auth?.token) fetchUser();

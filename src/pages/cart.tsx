@@ -7,6 +7,7 @@ import styles from './styles/cart.module.css';
 import Receipt from '../components/cart/receipt';
 import CartItem from '../components/cart/item';
 import OrderForm from '../components/cart/order-form';
+import getCurrency from '../components/get-currency';
 
 export interface CartPizza extends CartEntity {
   pizza: Pizza
@@ -42,11 +43,13 @@ export default function Cart () {
   };
 
   const getSubtotalPrice = () => {
-    return pizzas.reduce((accum, item) => accum + ((item.pizza?.price?.usd || 0) * item.count), 0);
+    return pizzas
+      .reduce((accum, item) =>
+        accum + ((item.pizza?.price?.[ctx.value.currency || 'usd'] || 0) * item.count), 0);
   };
   const getTotalPrice = () => {
     const subtotal = getSubtotalPrice();
-    return subtotal - DELIVERY_COST.usd - subtotal * ADDED_TAX;
+    return subtotal + DELIVERY_COST[ctx.value.currency || 'usd'] + subtotal * ADDED_TAX;
   };
 
   useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
@@ -57,13 +60,14 @@ export default function Cart () {
         {pizzas.length > 0 ? (
           <>
             {isOrderView ? (
-              <OrderForm finalPrice={'$' + Number(getTotalPrice()).toFixed(2)} />
+              <OrderForm finalPrice={getCurrency(ctx.value.currency, Number(getTotalPrice()).toFixed(2))} />
             ) : (
               <>
                 {pizzas.filter(item => item.pizza?.title).map((item) => (
                   <CartItem
                     key={item.id}
                     item={item}
+                    currency={ctx.value.currency}
                     removeFromCart={removeFromCart}
                     updateCounter={updateCounter}
                   />
@@ -89,11 +93,12 @@ export default function Cart () {
 
       <Receipt
         pizzas={pizzas}
-        delivery={'$' + DELIVERY_COST.usd}
-        tax={DELIVERY_COST.usd + '%'}
-        subtotal={'$' + Number(getSubtotalPrice()).toFixed(2)}
-        total={'$' + Number(getTotalPrice()).toFixed(2)}
+        delivery={getCurrency(ctx.value.currency, DELIVERY_COST)}
+        tax={ADDED_TAX + '%'}
+        subtotal={getCurrency(ctx.value.currency, Number(getSubtotalPrice()).toFixed(2))}
+        total={getCurrency(ctx.value.currency, Number(getTotalPrice()).toFixed(2))}
         orderView={isOrderView}
+        currency={ctx.value.currency}
         changeOrder={() => setOrderView(!isOrderView)}
       />
     </section>

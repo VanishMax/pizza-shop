@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import type {Order, PizzaOrder} from '../types';
 import Card from '../components/card';
 import request from '../api';
+import styles from './styles/orders.module.css';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -42,8 +43,9 @@ export default function Orders () {
                 {orders.length ? (
                   <>
                     {orders.map((order) => (
-                      <div key={order.date}>
+                      <div key={order.date} className={styles.orderBlock}>
                         <h3>{getDateFormat(order.date)} – {getAllPizzas(order.orders)} pizzas for {order.finalPrice}</h3>
+                        <p>Needs delivery to "{order.address}"</p>
                         <ul>
                           {order.orders.map((pizzaOrder) => (
                             <li key={order.date + pizzaOrder.id}>
