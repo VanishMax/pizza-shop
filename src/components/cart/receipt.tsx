@@ -17,7 +17,7 @@ export default function Receipt ({
     <Card className={styles.cartGridRight}>
       <h3>Order receipt</h3>
       <ul className={styles.cartPrice}>
-        {pizzas.map((item) => (
+        {pizzas.filter(item => item.pizza?.title).map((item) => (
           <li key={item.id}>
             <span>{item.pizza.title}</span>
             <span />

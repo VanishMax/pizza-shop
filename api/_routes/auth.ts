@@ -17,6 +17,7 @@ type User = {
   email: string,
   password: string,
   address: string,
+  orders: string[],
 };
 interface UserWithId extends User {
   _id: string
@@ -61,7 +62,7 @@ router.post('/register', (req, res) => {
     else {
       try {
         const pass = bcrypt.hashSync(password, 13);
-        const newUser = {name, email, address};
+        const newUser = {name, email, address, orders: []};
         const user = await Users.insertOne({...newUser, password: pass});
         const token = generateAccessToken(user.insertedId as unknown as string);
         res.json({token, user});

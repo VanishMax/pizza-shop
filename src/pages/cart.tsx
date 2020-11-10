@@ -42,7 +42,7 @@ export default function Cart () {
   };
 
   const getSubtotalPrice = () => {
-    return pizzas.reduce((accum, item) => accum + (item.pizza.price.usd * item.count), 0);
+    return pizzas.reduce((accum, item) => accum + ((item.pizza?.price?.usd || 0) * item.count), 0);
   };
   const getTotalPrice = () => {
     const subtotal = getSubtotalPrice();
@@ -60,7 +60,7 @@ export default function Cart () {
               <OrderForm finalPrice={'$' + Number(getTotalPrice()).toFixed(2)} />
             ) : (
               <>
-                {pizzas.map((item) => (
+                {pizzas.filter(item => item.pizza?.title).map((item) => (
                   <CartItem
                     key={item.id}
                     item={item}

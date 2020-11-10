@@ -103,8 +103,9 @@ export default function OrderForm ({
       if (res.ok) {
         setBigError('');
 
-        // ctx.set?.('auth', data as {token: string, user: User});
-        // routerHistory.push('/');
+        ctx.set?.('orders', data.id as {id: string});
+        ctx.set?.('cart', []);
+        routerHistory.push('/orders');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);
