@@ -1,0 +1,33 @@
+.button {
+  position: relative;
+  width: 100%;
+}
+
+.button > button {
+  display: block;
+  margin: auto;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  color: #2c2f44;
+  border-radius: .3rem;
+  background: #eaebf1;
+  box-shadow: 3px 3px 6px #bdbec2, -3px -3px 6px #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 0.025em;
+}
+
+.button > button:hover, .button > button:focus {
+  box-shadow: 3px 4px 6px 2px #bdbec2, -3px -4px 6px 2px #fff;
+  transition: box-shadow 200ms;
+  outline: none;
+}
+
+.button > button:active {
+  box-shadow: inset 2px 2px 5px #bdbec2, inset -3px -3px 7px #fff;
+}
+
+.disabled > button, .disabled > button:hover, .disabled > button:active, .disabled > button:focus {
+  cursor: not-allowed;
+  box-shadow: inset 2px 2px 5px #bdbec2, inset -3px -3px 7px #fff;
+}
