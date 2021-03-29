@@ -1,7 +1,6 @@
 {
   "name": "pizza-shop",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",
@@ -42,7 +41,7 @@
     "@types/react-dom": "^17.0.3",
     "@types/react-router-dom": "^5.1.7",
     "@vercel/node": "^1.9.1",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

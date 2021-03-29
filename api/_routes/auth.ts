@@ -1,7 +1,7 @@
 import express from 'express';
 import mongodb from 'mongodb';
 import getCollection from '../_utils/connection';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import parseRequest from '../_utils/parse-request';
 import {generateAccessToken, verifyAccessToken} from '../_utils/tokens';
 
