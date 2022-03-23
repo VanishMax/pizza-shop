@@ -1,6 +1,5 @@
 import React, {Suspense, lazy} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-// import {AnimatedSwitch} from 'react-router-transition';
 
 import Nav from './components/nav';
 import GlobalContext from './components/global-context';
@@ -19,13 +18,6 @@ function App () {
         <Nav />
 
         <Suspense fallback={<div />}>
-          {false && <AnimatedSwitch
-            atEnter={{ opacity: 0 }}
-            atLeave={{}}
-            atActive={{ opacity: 1 }}
-            runOnMount
-          >
-          </AnimatedSwitch>}
           <Routes>
             <Route index element={<Home />} />
             <Route path="/orders" element={<Orders />} />
