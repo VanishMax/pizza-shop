@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Card from '../components/card';
 import FormInput from '../components/form-input';
 import Button from '../components/button';
@@ -16,7 +16,7 @@ type Errors = {
 
 export default function Login () {
   const ctx = useContext(GlobalContext);
-  const routerHistory = useHistory();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -59,7 +59,7 @@ export default function Login () {
         setBigError('');
 
         ctx.set?.('auth', data as {token: string, user: User});
-        routerHistory.push('/');
+        navigate('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);

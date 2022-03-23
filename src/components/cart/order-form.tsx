@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {GlobalContext} from '../global-context';
 import type {FieldElemType} from '../../pages/signup';
-import request from '../../api';
+import request from '../../utils/api';
 import FormInput from '../form-input';
 import Form from '../form';
 import Button from '../button';
@@ -18,7 +18,7 @@ export default function OrderForm ({
   finalPrice,
 }: {finalPrice: string}) {
   const ctx = useContext(GlobalContext);
-  const routerHistory = useHistory();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>(ctx.value.auth?.user?.email || '');
   const [name, setName] = useState<string>(ctx.value.auth?.user?.name || '');
@@ -104,7 +104,7 @@ export default function OrderForm ({
 
         ctx.set?.('orders', data.id as {id: string});
         ctx.set?.('cart', null);
-        routerHistory.push('/orders');
+        navigate('/orders');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);

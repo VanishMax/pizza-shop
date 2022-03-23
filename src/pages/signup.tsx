@@ -4,7 +4,7 @@ import FormInput, {InputTypeEnum} from '../components/form-input';
 import Button from '../components/button';
 import Card from '../components/card';
 import styles from './styles/form.module.css';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {User} from '../types';
 import {GlobalContext} from '../components/global-context';
 
@@ -29,7 +29,7 @@ type Errors = {
 
 export default function Signup () {
   const ctx = useContext(GlobalContext);
-  const routerHistory = useHistory();
+  const navigate = useNavigate();
 
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
@@ -146,7 +146,7 @@ export default function Signup () {
         setBigError('');
 
         ctx.set?.('auth', data as {token: string, user: User});
-        routerHistory.push('/');
+        navigate('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);

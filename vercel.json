@@ -1,7 +1,0 @@
-{
-  "env": {
-    "MONGO_URI": "@mongo_uri",
-    "TOKEN_SECRET": "@token_secret"
-  },
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
-}

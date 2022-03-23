@@ -1,10 +1,11 @@
 import React, {Suspense, lazy} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
-import {AnimatedSwitch} from 'react-router-transition';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+// import {AnimatedSwitch} from 'react-router-transition';
+
 import Nav from './components/nav';
 import GlobalContext from './components/global-context';
 
-const Home = lazy(() => import('./pages/index'));
+const Home = lazy(() => import('./pages'));
 const Cart = lazy(() => import('./pages/cart'));
 const Orders = lazy(() => import('./pages/orders'));
 const Login = lazy(() => import('./pages/login'));
@@ -18,19 +19,21 @@ function App () {
         <Nav />
 
         <Suspense fallback={<div />}>
-          <AnimatedSwitch
+          {false && <AnimatedSwitch
             atEnter={{ opacity: 0 }}
             atLeave={{}}
             atActive={{ opacity: 1 }}
             runOnMount
           >
-            <Route exact path="/" component={Home} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/cart" component={Cart} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="*" component={Error} />
-          </AnimatedSwitch>
+          </AnimatedSwitch>}
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
         </Suspense>
       </GlobalContext>
     </BrowserRouter>
