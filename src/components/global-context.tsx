@@ -1,6 +1,6 @@
 import React, {useState, createContext, useEffect} from 'react';
 import type {CartEntity, ComponentProps, Pizza, UserContext} from '../types';
-import request from '../api';
+import request from '../utils/api';
 
 export const LocalStorageItem = 'pizza-shop';
 
