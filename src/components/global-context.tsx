@@ -1,6 +1,7 @@
 import { useState, createContext, useEffect } from 'react';
-import type { CartEntity, ComponentProps, Pizza, UserContext } from '../types';
-import request from '../utils/api';
+import type { CartEntity, UserContext } from '~/shared/types';
+import { Pizza } from '~/entities/pizza';
+import request from '~/shared/api/request';
 
 export const LocalStorageItem = 'pizza-shop';
 
@@ -34,7 +35,9 @@ export const GlobalContext = createContext<
 
 const DEFAULT_CURRENCY: Currency = 'usd';
 
-export default function Context({ children }: ComponentProps<{}>) {
+type ContextProps = JSX.IntrinsicElements['div'] & Readonly<{}>;
+
+export default function Context({ children }: ContextProps) {
   const [auth, setAuth] = useState<UserContext | null>(null);
   const [currency, setCurrency] = useState<Currency | null>(null);
   const [cart, setCart] = useState<CartEntity[]>([]);

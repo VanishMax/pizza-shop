@@ -1,6 +1,6 @@
 import styles from './styles/item.module.css';
 import Counter from '../counter';
-import { CartPizza } from '../../pages/cart';
+import { CartPizza } from '../../pages/cart/ui/page';
 import { Currency } from '../global-context';
 import getCurrency from '../get-currency';
 

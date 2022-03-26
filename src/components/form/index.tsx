@@ -1,19 +1,27 @@
-import { type FormEvent } from 'react';
+import { type FormEvent, type Dispatch } from 'react';
+import { InputTypeEnum } from '~/components/form-input';
+import composeClasses from '~/components/compose-classes';
 import styles from './form.module.css';
-import { ComponentProps } from '../../types';
-import composeClasses from '../compose-classes';
 
-type FormProps = {
-  submitHandler?: (e: FormEvent<HTMLFormElement>) => void;
-  className?: string;
+type FormProps = JSX.IntrinsicElements['div'] &
+  Readonly<{
+    submitHandler?: (e: FormEvent<HTMLFormElement>) => void;
+    className?: string;
+  }>;
+
+export type FieldElemType = {
+  slug: string;
+  val: string;
+  set: Dispatch<any>;
+  validate: (val: string) => string;
+  err: string;
+  label: string;
+  type: InputTypeEnum;
+  notRequired?: boolean;
 };
 
-export default function Form({
-  submitHandler,
-  className = '',
-  children,
-}: ComponentProps<FormProps>) {
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function Form({ submitHandler, className = '', children }: FormProps) {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     submitHandler?.(event);
   };

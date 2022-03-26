@@ -1,7 +1,7 @@
 import styles from './styles/receipt.module.css';
-import Button from '../button';
-import Card from '../card';
-import { CartPizza } from '../../pages/cart';
+import Button from '../../shared/ui/button';
+import Card from '../../shared/ui/card';
+import { CartPizza } from '../../pages/cart/ui/page';
 import { Currency } from '../global-context';
 import getCurrency from '../get-currency';
 

@@ -3,7 +3,23 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  settings: {
+    react: { version: 'detect' },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      'eslint-import-resolver-custom-alias': {
+        alias: {
+          '~': './src',
+        },
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   extends: ['plugin:react/recommended', 'airbnb', 'plugin:prettier/recommended'],
+  plugins: ['react', '@typescript-eslint', 'import'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -11,19 +27,8 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    tsconfigRootDir: './',
   },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-    'import/resolver': {
-      node: {
-        paths: ['src'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
-  },
-  plugins: ['react', '@typescript-eslint'],
   rules: {
     'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
     'react/react-in-jsx-scope': 'off',
@@ -34,6 +39,7 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-no-useless-fragment': 0,
+    'import/prefer-default-export': 0,
     'import/extensions': [
       'error',
       'ignorePackages',

@@ -1,24 +1,24 @@
 import { useRef, type FormEvent } from 'react';
 import styles from './input.module.css';
-import { ComponentProps } from '../../types';
 import composeClasses from '../compose-classes';
 
 export type InputTypeEnum = 'text' | 'email' | 'password' | 'number';
-export type InputProps = {
-  value?: string;
-  inputHandler?: (val: string) => void;
-  changeHandler?: (val: string) => void;
-  id?: string;
-  placeholder?: string;
-  autocomplete?: 'on' | 'off';
-  label?: string;
-  type: InputTypeEnum;
-  required?: boolean;
-  icon?: JSX.Element;
-  className?: string;
-  error?: string | boolean;
-  success?: string | boolean;
-};
+type InputProps = JSX.IntrinsicElements['label'] &
+  Readonly<{
+    value?: string;
+    inputHandler?: (val: string) => void;
+    changeHandler?: (val: string) => void;
+    id?: string;
+    placeholder?: string;
+    autocomplete?: 'on' | 'off';
+    label?: string;
+    type: InputTypeEnum;
+    required?: boolean;
+    icon?: JSX.Element;
+    className?: string;
+    error?: string | boolean;
+    success?: string | boolean;
+  }>;
 
 export default function FormInput({
   value,
@@ -34,7 +34,7 @@ export default function FormInput({
   className = '',
   error = false,
   success = false,
-}: ComponentProps<InputProps>) {
+}: InputProps) {
   const inp = useRef(null);
 
   const input = (event: FormEvent<HTMLInputElement>) => inputHandler?.(event.currentTarget.value);

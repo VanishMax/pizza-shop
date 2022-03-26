@@ -1,31 +1,29 @@
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import type { FieldElemType } from '~/components/form';
-import { GlobalContext } from '../global-context';
-import request from '../../shared/api/request';
-import FormInput from '../form-input';
-import Form from '../form';
-import Button from '../../shared/ui/button';
-import styles from './styles/order.module.css';
+import Card from '~/shared/ui/card';
+import FormInput from '~/components/form-input';
+import Button from '~/shared/ui/button';
+import Form from '~/components/form';
+import type { User } from '~/shared/types';
+import { GlobalContext } from '~/components/global-context';
+import styles from '~/pages/form.module.css';
 
 type Errors = {
   email: string;
-  name: string;
-  address: string;
+  password: string;
 };
 
-export default function OrderForm({ finalPrice }: { finalPrice: string }) {
+export default function Page() {
   const ctx = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState<string>(ctx.value.auth?.user?.email || '');
-  const [name, setName] = useState<string>(ctx.value.auth?.user?.name || '');
-  const [address, setAddress] = useState<string>(ctx.value.auth?.user?.address || '');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [bigError, setBigError] = useState<string>('');
   const [errors, setErrors] = useState<Errors>({
     email: '',
-    name: '',
-    address: '',
+    password: '',
   });
 
   const validateEmail = (val: string) => {
@@ -33,15 +31,9 @@ export default function OrderForm({ finalPrice }: { finalPrice: string }) {
     if (!val.match(/[^@]+@[^.]+\.[a-zA-Z]+/i)) return 'Wrong email format';
     return '';
   };
-  const validateName = (val: string) => {
-    if (!val) return 'Name field cannot be empty';
-    if (val.match(/[^A-Za-z ]/)) return 'Names can have only English letters or spaces';
-    if (val.length < 3) return 'Name is too short';
-    return '';
-  };
-  const validateAddress = (val: string) => {
-    if (!val) return 'Address field cannot be empty';
-    if (val.length < 3) return 'Address is too short';
+  const validatePassword = (val: string) => {
+    if (!val) return 'Password field cannot be empty';
+    if (val.length < 8) return 'Password is too short';
     return '';
   };
 
@@ -52,26 +44,17 @@ export default function OrderForm({ finalPrice }: { finalPrice: string }) {
       set: setEmail,
       validate: validateEmail,
       err: errors.email,
-      label: 'Your email',
+      label: 'Email',
       type: 'email',
     },
     {
-      slug: 'name',
-      val: name,
-      set: setName,
-      validate: validateName,
-      err: errors.name,
-      label: 'Your name',
-      type: 'text',
-    },
-    {
-      slug: 'address',
-      val: address,
-      set: setAddress,
-      validate: validateAddress,
-      err: errors.address,
-      label: 'Address',
-      type: 'text',
+      slug: 'password',
+      val: password,
+      set: setPassword,
+      validate: validatePassword,
+      err: errors.password,
+      label: 'Password',
+      type: 'password',
     },
   ];
 
@@ -87,24 +70,19 @@ export default function OrderForm({ finalPrice }: { finalPrice: string }) {
     if (hasErrors) return;
 
     try {
-      const res = await request('/api/orders', {
+      const res = await fetch('/api/login', {
         method: 'POST',
         body: JSON.stringify({
           email,
-          name,
-          address,
-          finalPrice,
-          orders: ctx.value.cart,
+          password,
         }),
       });
-
       const data = await res.json();
       if (res.ok) {
         setBigError('');
 
-        ctx.set?.('orders', data.id as { id: string });
-        ctx.set?.('cart', null);
-        navigate('/orders');
+        ctx.set?.('auth', data as { token: string; user: User });
+        navigate('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
         if (data?.error) setBigError(data.error as string);
@@ -116,9 +94,9 @@ export default function OrderForm({ finalPrice }: { finalPrice: string }) {
   };
 
   return (
-    <>
-      <h2 className={styles.heading}>Confirm order</h2>
-      <Form className={styles.order} submitHandler={submit}>
+    <Card className="mt-2">
+      <h2 className={styles.formH2}>Log In</h2>
+      <Form submitHandler={submit}>
         <>
           {fields.map((item) => (
             <FormInput
@@ -133,12 +111,16 @@ export default function OrderForm({ finalPrice }: { finalPrice: string }) {
           ))}
         </>
 
+        <p className={styles.textLink}>
+          If you don&apos;t have an account,&nbsp;
+          <Link to="/signup">create it!</Link>
+        </p>
         <Button className="mt-2 mb-1" submit>
-          Confirm order
+          Log in
         </Button>
 
         {bigError && <p className={styles.bigError}>{bigError}</p>}
       </Form>
-    </>
+    </Card>
   );
 }
