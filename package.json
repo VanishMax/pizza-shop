@@ -10,7 +10,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node --project tsconfig.node.json prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",
