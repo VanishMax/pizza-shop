@@ -1,33 +1,33 @@
-import React, {useContext, useState} from 'react';
+import { useContext, useState, type Dispatch } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from '../components/form';
-import FormInput, {InputTypeEnum} from '../components/form-input';
+import FormInput, { InputTypeEnum } from '../components/form-input';
 import Button from '../components/button';
 import Card from '../components/card';
 import styles from './styles/form.module.css';
-import {Link, useNavigate} from 'react-router-dom';
-import {User} from '../types';
-import {GlobalContext} from '../components/global-context';
+import { User } from '../types';
+import { GlobalContext } from '../components/global-context';
 
 export type FieldElemType = {
-  slug: string,
-  val: string,
-  set: React.Dispatch<any>,
-  validate: (val: string) => string,
-  err: string,
-  label: string,
-  type: InputTypeEnum,
-  notRequired?: boolean,
+  slug: string;
+  val: string;
+  set: Dispatch<any>;
+  validate: (val: string) => string;
+  err: string;
+  label: string;
+  type: InputTypeEnum;
+  notRequired?: boolean;
 };
 
 type Errors = {
-  name: string,
-  email: string,
-  address: string,
-  password: string,
-  passwordConfirm: string,
+  name: string;
+  email: string;
+  address: string;
+  password: string;
+  passwordConfirm: string;
 };
 
-export default function Signup () {
+export default function Signup() {
   const ctx = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -58,7 +58,9 @@ export default function Signup () {
   };
   const validatePassword = (val: string) => {
     if (!val) return 'Password field cannot be empty';
-    if (val.length < 8 || !val.match(/[a-zA-Z]/) || !val.match(/[0-9]/)) return 'Password should be longer than 8 characters and contain both numbers and English letters';
+    if (val.length < 8 || !val.match(/[a-zA-Z]/) || !val.match(/[0-9]/)) {
+      return 'Password should be longer than 8 characters and contain both numbers and English letters';
+    }
     return '';
   };
   const validatePasswordConfirm = (val: string) => {
@@ -69,7 +71,7 @@ export default function Signup () {
 
   const setValue = (val: string, item: FieldElemType) => {
     item.set(val);
-    setErrors({...errors, [item.slug]: item.validate(val)});
+    setErrors({ ...errors, [item.slug]: item.validate(val) });
   };
 
   const fields: FieldElemType[] = [
@@ -122,8 +124,10 @@ export default function Signup () {
   ];
 
   const submit = async () => {
-    let errs: {[key: string]: string} = {};
-    fields.forEach((field) => errs[field.slug] = field.validate(field.val));
+    const errs: { [key: string]: string } = {};
+    fields.forEach((field) => {
+      errs[field.slug] = field.validate(field.val);
+    });
 
     const hasErrors = Object.values(errs).some((err) => !!err);
     setErrors(errs as Errors);
@@ -145,7 +149,7 @@ export default function Signup () {
       if (res.ok) {
         setBigError('');
 
-        ctx.set?.('auth', data as {token: string, user: User});
+        ctx.set?.('auth', data as { token: string; user: User });
         navigate('/');
       } else {
         if (data?.fieldErrors) setErrors(data.fieldErrors as Errors);
@@ -183,9 +187,7 @@ export default function Signup () {
           Sign up
         </Button>
 
-        {bigError && (
-          <p className={styles.bigError}>{bigError}</p>
-        )}
+        {bigError && <p className={styles.bigError}>{bigError}</p>}
       </Form>
     </Card>
   );

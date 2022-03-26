@@ -1,12 +1,12 @@
-import {LocalStorageItem} from '../components/global-context';
+import { LocalStorageItem } from '../components/global-context';
 
 const request = async (url: RequestInfo, options: RequestInit = {}) => {
   const ls = JSON.parse(localStorage.getItem(LocalStorageItem) || '{}');
   const token = ls?.auth?.token;
 
-  return await fetch(url, {
+  return fetch(url, {
     headers: {
-      'Authorization': token,
+      Authorization: token,
     },
     ...options,
   });

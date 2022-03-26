@@ -1,5 +1,5 @@
-import React, {Suspense, lazy} from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Nav from './components/nav';
 import GlobalContext from './components/global-context';
@@ -11,7 +11,7 @@ const Login = lazy(() => import('./pages/login'));
 const Signup = lazy(() => import('./pages/signup'));
 const Error = lazy(() => import('./pages/error'));
 
-function App () {
+function App() {
   return (
     <BrowserRouter>
       <GlobalContext>

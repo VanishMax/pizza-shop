@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './app'
-import './assets/global.css'
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom';
+import App from './app';
+import './assets/global.css';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('app')
-)
+  </StrictMode>,
+  document.getElementById('app'),
+);

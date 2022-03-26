@@ -1,12 +1,11 @@
 import styles from './styles/receipt.module.css';
 import Button from '../button';
 import Card from '../card';
-import React from 'react';
-import {CartPizza} from '../../pages/cart';
-import {Currency} from '../global-context';
+import { CartPizza } from '../../pages/cart';
+import { Currency } from '../global-context';
 import getCurrency from '../get-currency';
 
-export default function Receipt ({
+export default function Receipt({
   pizzas,
   subtotal,
   total,
@@ -15,18 +14,32 @@ export default function Receipt ({
   orderView,
   currency,
   changeOrder,
-}: {pizzas: CartPizza[], subtotal: string, total: string, delivery: string, tax: string, orderView: boolean, currency: Currency|null, changeOrder: () => void }) {
+}: {
+  pizzas: CartPizza[];
+  subtotal: string;
+  total: string;
+  delivery: string;
+  tax: string;
+  orderView: boolean;
+  currency: Currency | null;
+  changeOrder: () => void;
+}) {
   return (
     <Card className={styles.cartGridRight}>
       <h3>Order receipt</h3>
       <ul className={styles.cartPrice}>
-        {pizzas.filter(item => item.pizza?.title).map((item) => (
-          <li key={item.id}>
-            <span>{item.pizza.title}</span>
-            <span />
-            <span>{getCurrency(currency, '')}{item.pizza.price[currency || 'usd'] * item.count}</span>
-          </li>
-        ))}
+        {pizzas
+          .filter((item) => item.pizza?.title)
+          .map((item) => (
+            <li key={item.id}>
+              <span>{item.pizza.title}</span>
+              <span />
+              <span>
+                {getCurrency(currency, '')}
+                {item.pizza.price[currency || 'usd'] * item.count}
+              </span>
+            </li>
+          ))}
       </ul>
       <ul className={styles.cartPrice}>
         <li>
@@ -53,10 +66,7 @@ export default function Receipt ({
         </li>
       </ul>
 
-      <Button
-        disabled={!pizzas.length}
-        clickHandler={changeOrder}
-      >
+      <Button disabled={!pizzas.length} clickHandler={changeOrder}>
         {orderView ? 'See the cart' : 'Make an order'}
       </Button>
     </Card>

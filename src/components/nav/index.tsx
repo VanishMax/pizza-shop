@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
-import {Link} from 'react-router-dom';
+import { useContext, type MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './nav.module.css';
-import {GlobalContext} from '../global-context';
+import { GlobalContext } from '../global-context';
 import Button from '../button';
 import getCurrency from '../get-currency';
 
-export default function Nav () {
+export default function Nav() {
   const ctx = useContext(GlobalContext);
 
-  const logout = (e: React.MouseEvent) => {
+  const logout = (e: MouseEvent) => {
     e.preventDefault();
     ctx.set?.('auth', null);
   };
@@ -34,7 +34,9 @@ export default function Nav () {
             {ctx.value.auth?.user ? (
               <>
                 <Link to="/orders">My orders</Link>
-                <a href="/logout" onClick={logout}>Log out</a>
+                <a href="/logout" onClick={logout}>
+                  Log out
+                </a>
               </>
             ) : (
               <Link to="/login">Login</Link>

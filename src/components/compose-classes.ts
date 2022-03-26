@@ -6,7 +6,10 @@
  */
 
 const composeClasses = (...args: string[]): string => {
-  const classes = args.join(' ').trim().replace(/ false | +/g, ' ');
+  const classes = args
+    .join(' ')
+    .trim()
+    .replace(/ false | +/g, ' ');
   return classes || '';
 };
 export default composeClasses;

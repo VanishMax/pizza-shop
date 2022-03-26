@@ -1,26 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect, type KeyboardEvent, type FormEvent } from 'react';
 import styles from './counter.module.css';
 import Button from '../button';
 import composeClasses from '../compose-classes';
 
-export default function Counter ({
+export default function Counter({
   initialCount = 1,
   changeHandler,
   className = '',
-}: {initialCount?: number, changeHandler?: (num: number) => void, className?: string}) {
+}: {
+  initialCount: number;
+  changeHandler: (num: number) => void;
+  className: string;
+}) {
   const [count, setCount] = useState<number>(initialCount);
 
-  const keydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const keydown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === '-' || e.key === '.') e.preventDefault();
   };
 
-  const input = (e: React.FormEvent<HTMLInputElement>) => {
+  const input = (e: FormEvent<HTMLInputElement>) => {
     const val = parseInt(e.currentTarget.value, 10);
     if (val < 1) e.preventDefault();
     setCount(val > 1 ? val : 1);
   };
 
-  const btnClick = (increase: 1|-1) => {
+  const btnClick = (increase: 1 | -1) => {
     const newVal = count + increase;
     if (newVal > 0) setCount(newVal);
   };
@@ -31,7 +35,9 @@ export default function Counter ({
 
   return (
     <div className={composeClasses(styles.counter, className)}>
-      <Button className={styles.button} clickHandler={() => btnClick(-1)}>–</Button>
+      <Button className={styles.button} clickHandler={() => btnClick(-1)}>
+        –
+      </Button>
       <input
         type="number"
         value={count}
@@ -39,7 +45,9 @@ export default function Counter ({
         onKeyDown={keydown}
         onInput={input}
       />
-      <Button className={styles.button} clickHandler={() => btnClick(1)}>+</Button>
+      <Button className={styles.button} clickHandler={() => btnClick(1)}>
+        +
+      </Button>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
-import type {CartEntity, Pizza} from '../types';
-import {GlobalContext} from '../components/global-context';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import type { CartEntity, Pizza } from '../types';
+import { GlobalContext } from '../components/global-context';
 import Card from '../components/card';
 import styles from './styles/cart.module.css';
 import Receipt from '../components/cart/receipt';
@@ -10,7 +10,7 @@ import OrderForm from '../components/cart/order-form';
 import getCurrency from '../components/get-currency';
 
 export interface CartPizza extends CartEntity {
-  pizza: Pizza
+  pizza: Pizza;
 }
 
 const DELIVERY_COST = {
@@ -19,16 +19,20 @@ const DELIVERY_COST = {
 };
 const ADDED_TAX = 0.04;
 
-export default function Cart () {
+export default function Cart() {
   const ctx = useContext(GlobalContext);
   const [pizzas, setPizzas] = useState<CartPizza[]>([]);
   const [isOrderView, setOrderView] = useState<boolean>(false);
 
   const updateCartPizzas = () => {
-    if (ctx.pizzas.length) setPizzas(ctx.value.cart.map((item) => ({
-      ...item,
-      pizza: ctx.pizzas.find((pizza) => pizza._id === item.id) as Pizza,
-    })));
+    if (ctx.pizzas.length) {
+      setPizzas(
+        ctx.value.cart.map((item) => ({
+          ...item,
+          pizza: ctx.pizzas.find((pizza) => pizza._id === item.id) as Pizza,
+        })),
+      );
+    }
   };
 
   const removeFromCart = (id: string) => {
@@ -39,20 +43,20 @@ export default function Cart () {
   };
 
   const updateCounter = (id: string, count: number) => {
-    ctx.set?.('cart', {id, count});
+    ctx.set?.('cart', { id, count });
   };
 
-  const getSubtotalPrice = () => {
-    return pizzas
-      .reduce((accum, item) =>
-        accum + ((item.pizza?.price?.[ctx.value.currency || 'usd'] || 0) * item.count), 0);
-  };
+  const getSubtotalPrice = () =>
+    pizzas.reduce(
+      (accum, item) => accum + (item.pizza?.price?.[ctx.value.currency || 'usd'] || 0) * item.count,
+      0,
+    );
   const getTotalPrice = () => {
     const subtotal = getSubtotalPrice();
     return subtotal + DELIVERY_COST[ctx.value.currency || 'usd'] + subtotal * ADDED_TAX;
   };
 
-  useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas])
+  useEffect(updateCartPizzas, [ctx.value.cart, ctx.pizzas]);
 
   return (
     <section className={styles.cartGrid}>
@@ -60,18 +64,22 @@ export default function Cart () {
         {pizzas.length > 0 ? (
           <>
             {isOrderView ? (
-              <OrderForm finalPrice={getCurrency(ctx.value.currency, Number(getTotalPrice()).toFixed(2))} />
+              <OrderForm
+                finalPrice={getCurrency(ctx.value.currency, Number(getTotalPrice()).toFixed(2))}
+              />
             ) : (
               <>
-                {pizzas.filter(item => item.pizza?.title).map((item) => (
-                  <CartItem
-                    key={item.id}
-                    item={item}
-                    currency={ctx.value.currency}
-                    removeFromCart={removeFromCart}
-                    updateCounter={updateCounter}
-                  />
-                ))}
+                {pizzas
+                  .filter((item) => item.pizza?.title)
+                  .map((item) => (
+                    <CartItem
+                      key={item.id}
+                      item={item}
+                      currency={ctx.value.currency}
+                      removeFromCart={removeFromCart}
+                      updateCounter={updateCounter}
+                    />
+                  ))}
               </>
             )}
           </>
@@ -80,12 +88,13 @@ export default function Cart () {
             {ctx.pizzas.length ? (
               <>
                 <h3>Your cart is still empty :(</h3>
-                <p>Start filling it in <Link to="/">the main page</Link></p>
+                <p>
+                  Start filling it in
+                  <Link to="/">the main page</Link>
+                </p>
               </>
             ) : (
-              <>
-                <h3>The pizzas are loading. Please, wait...</h3>
-              </>
+              <h3>The pizzas are loading. Please, wait...</h3>
             )}
           </>
         )}
@@ -94,7 +103,7 @@ export default function Cart () {
       <Receipt
         pizzas={pizzas}
         delivery={getCurrency(ctx.value.currency, DELIVERY_COST)}
-        tax={ADDED_TAX + '%'}
+        tax={`${ADDED_TAX}%`}
         subtotal={getCurrency(ctx.value.currency, Number(getSubtotalPrice()).toFixed(2))}
         total={getCurrency(ctx.value.currency, Number(getTotalPrice()).toFixed(2))}
         orderView={isOrderView}

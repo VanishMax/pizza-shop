@@ -1,7 +1,7 @@
-import React, {useContext, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {GlobalContext} from '../global-context';
-import type {FieldElemType} from '../../pages/signup';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../global-context';
+import type { FieldElemType } from '../../pages/signup';
 import request from '../../utils/api';
 import FormInput from '../form-input';
 import Form from '../form';
@@ -9,14 +9,12 @@ import Button from '../button';
 import styles from './styles/order.module.css';
 
 type Errors = {
-  email: string,
-  name: string,
-  address: string,
-}
+  email: string;
+  name: string;
+  address: string;
+};
 
-export default function OrderForm ({
-  finalPrice,
-}: {finalPrice: string}) {
+export default function OrderForm({ finalPrice }: { finalPrice: string }) {
   const ctx = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -79,8 +77,10 @@ export default function OrderForm ({
 
   const setValue = (val: string, item: FieldElemType) => item.set(val);
   const submit = async () => {
-    let errs: {[key: string]: string} = {};
-    fields.forEach((field) => errs[field.slug] = field.validate(field.val));
+    const errs: { [key: string]: string } = {};
+    fields.forEach((field) => {
+      errs[field.slug] = field.validate(field.val);
+    });
 
     const hasErrors = Object.values(errs).some((err) => !!err);
     setErrors(errs as Errors);
@@ -102,7 +102,7 @@ export default function OrderForm ({
       if (res.ok) {
         setBigError('');
 
-        ctx.set?.('orders', data.id as {id: string});
+        ctx.set?.('orders', data.id as { id: string });
         ctx.set?.('cart', null);
         navigate('/orders');
       } else {
@@ -137,9 +137,7 @@ export default function OrderForm ({
           Confirm order
         </Button>
 
-        {bigError && (
-          <p className={styles.bigError}>{bigError}</p>
-        )}
+        {bigError && <p className={styles.bigError}>{bigError}</p>}
       </Form>
     </>
   );

@@ -1,26 +1,26 @@
-import React, {useRef} from 'react';
+import { useRef, type FormEvent } from 'react';
 import styles from './input.module.css';
-import {ComponentProps} from '../../types';
+import { ComponentProps } from '../../types';
 import composeClasses from '../compose-classes';
 
-export type InputTypeEnum = 'text'|'email'|'password'|'number';
+export type InputTypeEnum = 'text' | 'email' | 'password' | 'number';
 export type InputProps = {
-  value?: string,
-  inputHandler?: (val: string) => void,
-  changeHandler?: (val: string) => void,
-  id?: string,
-  placeholder?: string,
-  autocomplete?: 'on'|'off',
-  label?: string,
-  type: InputTypeEnum,
-  required?: boolean,
-  icon?: JSX.Element,
-  className?: string,
-  error?: string|boolean,
-  success?: string|boolean,
-}
+  value?: string;
+  inputHandler?: (val: string) => void;
+  changeHandler?: (val: string) => void;
+  id?: string;
+  placeholder?: string;
+  autocomplete?: 'on' | 'off';
+  label?: string;
+  type: InputTypeEnum;
+  required?: boolean;
+  icon?: JSX.Element;
+  className?: string;
+  error?: string | boolean;
+  success?: string | boolean;
+};
 
-export default function FormInput ({
+export default function FormInput({
   value,
   changeHandler,
   inputHandler,
@@ -34,18 +34,20 @@ export default function FormInput ({
   className = '',
   error = false,
   success = false,
-} : ComponentProps<InputProps>) {
+}: ComponentProps<InputProps>) {
   const inp = useRef(null);
 
-  const input = (event: React.FormEvent<HTMLInputElement>) => inputHandler?.(event.currentTarget.value);
-  const change = (event: React.FormEvent<HTMLInputElement>) => changeHandler?.(event.currentTarget.value);
+  const input = (event: FormEvent<HTMLInputElement>) => inputHandler?.(event.currentTarget.value);
+  const change = (event: FormEvent<HTMLInputElement>) => changeHandler?.(event.currentTarget.value);
 
   return (
-    <label className={composeClasses(
-      styles.formInput,
-      className,
-      error ? styles.formInputError : '',
-      success ? styles.formInputSuccess : '',
+    <label
+      htmlFor={id}
+      className={composeClasses(
+        styles.formInput,
+        className,
+        error ? styles.formInputError : '',
+        success ? styles.formInputSuccess : '',
       )}
     >
       {label && (
@@ -56,9 +58,7 @@ export default function FormInput ({
       )}
 
       <div>
-        {icon && (
-          <div>{icon}</div>
-        )}
+        {icon && <div>{icon}</div>}
         <input
           id={id}
           value={value}
@@ -70,10 +70,10 @@ export default function FormInput ({
           onInput={input}
           onChange={change}
         />
-        {(error && typeof error === 'string') && (
+        {error && typeof error === 'string' && (
           <span className={composeClasses(styles.infoSpan, styles.infoSpanError)}>{error}</span>
         )}
-        {(success && typeof success === 'string') && (
+        {success && typeof success === 'string' && (
           <span className={composeClasses(styles.infoSpan, styles.infoSpanSuccess)}>{success}</span>
         )}
       </div>
