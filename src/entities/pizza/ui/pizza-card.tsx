@@ -1,6 +1,7 @@
+import { useAppSelector } from '~/app/store';
 import Card from '~/shared/ui/card';
-import Button from '~/shared/ui/button';
-import getCurrency from '~/components/get-currency';
+import { getCurrency } from '~/features/currency';
+import { AddToCart } from '~/features/cart';
 import type { Pizza } from '../model/types';
 import styles from './pizza-card.module.css';
 
@@ -9,16 +10,7 @@ interface PizzaCardProps {
 }
 
 export default function Home({ pizza }: PizzaCardProps) {
-  const addToCart = (pizzaId: string) => {
-    // ctx.set?.('cart', {
-    //   id: pizzaId,
-    //   count: 1,
-    // });
-  };
-
-  const isDisabled = (pizzaId: string) => {
-    // ctx.value.cart.some((item) => item.id === pizzaId);
-  };
+  const currency = useAppSelector((state) => state.currency.currency);
 
   return (
     <Card key={pizza.title} className={styles.pizzaCard}>
@@ -29,15 +21,9 @@ export default function Home({ pizza }: PizzaCardProps) {
       <div className={styles.pizzaCardEmpty} />
       <div className={styles.pizzaCardActions}>
         <span>
-          Price: <b>{getCurrency(ctx.value.currency, pizza.price)}</b>
+          Price: <b>{getCurrency(currency, pizza.price)}</b>
         </span>
-        <Button
-          className={styles.pizzaCardActionsButton}
-          disabled={isDisabled(pizza._id)}
-          clickHandler={() => addToCart(pizza._id)}
-        >
-          {isDisabled(pizza._id) ? 'In the cart' : 'Add to cart'}
-        </Button>
+        <AddToCart pizzaId={pizza.id} />
       </div>
     </Card>
   );

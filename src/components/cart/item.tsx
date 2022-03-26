@@ -2,7 +2,7 @@ import styles from './styles/item.module.css';
 import Counter from '../counter';
 import { CartPizza } from '../../pages/cart/ui/page';
 import { Currency } from '../global-context';
-import getCurrency from '../get-currency';
+import getCurrency from '../../features/currency/model/get-currency';
 
 export default function CartItem({
   item,

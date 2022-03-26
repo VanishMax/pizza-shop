@@ -3,7 +3,7 @@ import Button from '../../shared/ui/button';
 import Card from '../../shared/ui/card';
 import { CartPizza } from '../../pages/cart/ui/page';
 import { Currency } from '../global-context';
-import getCurrency from '../get-currency';
+import getCurrency from '../../features/currency/model/get-currency';
 
 export default function Receipt({
   pizzas,

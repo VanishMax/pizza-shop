@@ -5,7 +5,7 @@ import { GlobalContext } from '~/components/global-context';
 import Receipt from '~/components/cart/receipt';
 import CartItem from '~/components/cart/item';
 import OrderForm from '~/components/cart/order-form';
-import getCurrency from '~/components/get-currency';
+import getCurrency from '~/features/currency/model/get-currency';
 import Card from '~/shared/ui/card';
 import styles from './page.module.css';
 

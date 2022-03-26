@@ -3,7 +3,7 @@ import { PizzaCard } from '~/entities/pizza';
 import styles from './page.module.css';
 
 export default function Home() {
-  const pizzas = useAppSelector((state) => state.pizzas);
+  const pizzas = useAppSelector((state) => state.pizza.pizzas);
 
   return (
     <section className={styles.pizzaGrid}>

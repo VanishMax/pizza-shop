@@ -1,0 +1,7 @@
+.addToCartButton {
+  width: auto;
+}
+
+.addToCartButton > button {
+  margin: 0;
+}

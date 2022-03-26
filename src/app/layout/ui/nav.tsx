@@ -1,20 +1,25 @@
-import { useContext, type MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '~/shared/ui/button';
+import { getCurrency, Currency, currencySlice } from '~/features/currency';
+import { useAppSelector, useAppDispatch } from '~/app/store';
 import styles from './nav.module.css';
-import { GlobalContext } from '../../../components/global-context';
-import Button from '../../../shared/ui/button';
-import getCurrency from '../../../components/get-currency';
 
 export default function Nav() {
-  const ctx = useContext(GlobalContext);
+  const dispatch = useAppDispatch();
+
+  const currency = useAppSelector((state) => state.currency.currency);
+  const auth = useAppSelector((state) => state.auth);
+  const cart = useAppSelector((state) => state.cart.items);
 
   const logout = (e: MouseEvent) => {
     e.preventDefault();
-    ctx.set?.('auth', null);
+    // ctx.set?.('auth', null);
   };
 
   const changeCurrency = () => {
-    ctx.set?.('currency', ctx.value.currency === 'usd' ? 'eur' : 'usd');
+    const newCurrency = currency === Currency.usd ? Currency.eur : Currency.usd;
+    dispatch(currencySlice.actions.setCurrency(newCurrency));
   };
 
   return (
@@ -23,15 +28,13 @@ export default function Nav() {
         <img src="/icons/ps.png" alt="pizza shop logo" />
       </Link>
       <nav>
-        {!ctx.value.auth?.loading && (
+        {!auth?.loading && (
           <>
             <Link to="/cart">
               Cart
-              {ctx.value.cart.length > 0 && (
-                <span className={styles.badge}>{ctx.value.cart.length}</span>
-              )}
+              {cart.length > 0 && <span className={styles.badge}>{cart.length}</span>}
             </Link>
-            {ctx.value.auth?.user ? (
+            {auth?.auth ? (
               <>
                 <Link to="/orders">My orders</Link>
                 <a href="/logout" onClick={logout}>
@@ -42,7 +45,7 @@ export default function Nav() {
               <Link to="/login">Login</Link>
             )}
             <Button clickHandler={changeCurrency}>
-              Use {getCurrency(ctx.value.currency === 'usd' ? 'eur' : 'usd', '')}
+              Use {getCurrency(currency === Currency.usd ? Currency.eur : Currency.usd, '')}
             </Button>
           </>
         )}

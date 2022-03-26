@@ -1,9 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { pizzaSlice } from '~/entities/pizza';
+import { cartSlice } from '~/features/cart';
+import { authSlice } from '~/features/auth';
+import { currencySlice } from '~/features/currency';
 
 export const store = configureStore({
-  reducer: pizzaSlice.reducer,
+  reducer: {
+    pizza: pizzaSlice.reducer,
+    cart: cartSlice.reducer,
+    auth: authSlice.reducer,
+    currency: currencySlice.reducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

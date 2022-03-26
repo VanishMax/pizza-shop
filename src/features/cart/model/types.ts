@@ -1,4 +1,4 @@
 export interface CartEntity {
-  id: string;
+  id: number;
   count: number;
 }

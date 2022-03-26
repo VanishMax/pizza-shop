@@ -23,11 +23,3 @@
 .pizzaCardActions > span {
   white-space: nowrap;
 }
-
-.pizzaCardActionsButton {
-  width: auto;
-}
-
-.pizzaCardActionsButton > button {
-  margin: 0;
-}

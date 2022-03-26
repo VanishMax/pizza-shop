@@ -1,10 +1,12 @@
+import type { Currency } from '~/features/currency';
+
 export interface Pizza {
-  _id: string;
+  id: number;
   title: string;
   description: string;
   photo: string;
   price: {
-    usd: number;
-    eur: number;
+    [Currency.usd]: number;
+    [Currency.eur]: number;
   };
 }
