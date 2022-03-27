@@ -1,7 +1,7 @@
 import { useState, createContext, useEffect } from 'react';
 import type { CartEntity, UserContext } from '~/shared/types';
 import { Pizza } from '~/entities/pizza';
-import request from '~/shared/api/request';
+import request from '~/shared/lib/request';
 
 export const LocalStorageItem = 'pizza-shop';
 

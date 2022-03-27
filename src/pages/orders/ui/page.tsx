@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Order, PizzaOrder } from '~/shared/types';
 import Card from '~/shared/ui/card';
-import request from '~/shared/api/request';
+import request from '~/shared/lib/request';
 import styles from './page.module.css';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

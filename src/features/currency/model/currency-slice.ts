@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { localData } from '~/shared/lib/local-storage';
 
 // eslint-disable-next-line no-shadow
 export enum Currency {
@@ -10,7 +11,7 @@ export enum Currency {
 export const currencySlice = createSlice({
   name: 'currency',
   initialState: {
-    currency: Currency.usd as Currency,
+    currency: localData.currency as Currency,
   },
   reducers: {
     setCurrency: (state, action: PayloadAction<Currency>) => {
