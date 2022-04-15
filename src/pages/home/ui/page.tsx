@@ -10,7 +10,7 @@ export default function Home() {
       {pizzas.length ? (
         <>
           {pizzas.map((pizza) => (
-            <PizzaCard pizza={pizza} />
+            <PizzaCard pizza={pizza} key={pizza.id} />
           ))}
         </>
       ) : (

@@ -1,7 +1,7 @@
 import { type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '~/shared/ui/button';
-import { getCurrency, Currency, currencySlice } from '~/features/currency';
+import { getCurrency, type Currency, currencySlice } from '~/features/currency';
 import { useAppSelector, useAppDispatch } from '~/app/store';
 import styles from './nav.module.css';
 
@@ -18,7 +18,7 @@ export default function Nav() {
   };
 
   const changeCurrency = () => {
-    const newCurrency = currency === Currency.usd ? Currency.eur : Currency.usd;
+    const newCurrency = currency === 'usd' ? 'eur' : 'usd';
     dispatch(currencySlice.actions.setCurrency(newCurrency));
   };
 
@@ -45,7 +45,7 @@ export default function Nav() {
               <Link to="/login">Login</Link>
             )}
             <Button clickHandler={changeCurrency}>
-              Use {getCurrency(currency === Currency.usd ? Currency.eur : Currency.usd, '')}
+              Use {getCurrency(currency === 'usd' ? 'eur' : 'usd', '')}
             </Button>
           </>
         )}

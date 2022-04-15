@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { localData } from '~/shared/lib/local-storage';
 
-// eslint-disable-next-line no-shadow
-export enum Currency {
-  usd = 'USD',
-  eur = 'EURO',
-}
+export type Currency = 'usd' | 'eur';
 
 /* eslint-disable no-param-reassign */
 export const currencySlice = createSlice({

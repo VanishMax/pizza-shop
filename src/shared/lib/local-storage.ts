@@ -12,11 +12,15 @@ const lstorageInit = () => {
   const data = localStorage.getItem(LSTORAGE_ITEM) || '{}';
   let json: LocalStorageData;
   try {
-    json = JSON.parse(data);
+    json = {
+      cart: [],
+      currency: 'usd',
+      ...JSON.parse(data),
+    };
   } catch (_) {
     json = {
       cart: [],
-      currency: Currency.usd,
+      currency: 'usd',
     };
   }
   return json;

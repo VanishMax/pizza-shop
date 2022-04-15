@@ -1,6 +1,5 @@
-import { useAppSelector } from '~/app/store';
 import Card from '~/shared/ui/card';
-import { getCurrency } from '~/features/currency';
+import { useCurrency } from '~/features/currency';
 import { AddToCart } from '~/features/cart';
 import type { Pizza } from '../model/types';
 import styles from './pizza-card.module.css';
@@ -10,7 +9,10 @@ interface PizzaCardProps {
 }
 
 export default function Home({ pizza }: PizzaCardProps) {
-  const currency = useAppSelector((state) => state.currency.currency);
+  const price = useCurrency({
+    eur: pizza.priceEur,
+    usd: pizza.priceUsd,
+  });
 
   return (
     <Card key={pizza.title} className={styles.pizzaCard}>
@@ -21,7 +23,7 @@ export default function Home({ pizza }: PizzaCardProps) {
       <div className={styles.pizzaCardEmpty} />
       <div className={styles.pizzaCardActions}>
         <span>
-          Price: <b>{getCurrency(currency, pizza.price)}</b>
+          Price: <b>{price}</b>
         </span>
         <AddToCart pizzaId={pizza.id} />
       </div>

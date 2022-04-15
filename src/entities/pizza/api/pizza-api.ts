@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/named
-import { prisma } from '~/shared/lib/prisma';
+import request from '~/shared/lib/request';
 import type { Pizza } from '../model/types';
 
 export const pizzaApi = {
@@ -8,7 +7,9 @@ export const pizzaApi = {
    */
   list: async (): Promise<Pizza[]> => {
     try {
-      return prisma.pizza.findMany();
+      const res = await request<Pizza[]>('/api/pizza');
+      console.log('theere', res);
+      return res.data || [];
     } catch (_) {
       return [];
     }
