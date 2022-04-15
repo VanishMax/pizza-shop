@@ -5,6 +5,7 @@
     "moduleResolution": "node"
   },
   "include": [
-    "./vite.config.ts"
+    "./vite.config.ts",
+    "api"
   ]
 }
