@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { pizzaSlice } from '~/entities/pizza';
+import { userSlice } from '~/entities/user';
 import { cartSlice } from '~/features/cart';
-import { authSlice } from '~/features/auth';
-import { currencySlice } from '~/features/currency';
+import { currencySlice } from '~/features/currency/model/currency-slice';
 
 export const store = configureStore({
   reducer: {
     pizza: pizzaSlice.reducer,
     cart: cartSlice.reducer,
-    auth: authSlice.reducer,
+    user: userSlice.reducer,
     currency: currencySlice.reducer,
   },
 });

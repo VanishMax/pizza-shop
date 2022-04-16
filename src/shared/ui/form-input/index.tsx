@@ -1,6 +1,6 @@
 import { useRef, type FormEvent } from 'react';
 import styles from './input.module.css';
-import composeClasses from '../compose-classes';
+import composeClasses from '../../../components/compose-classes';
 
 export type InputTypeEnum = 'text' | 'email' | 'password' | 'number';
 type InputProps = JSX.IntrinsicElements['label'] &

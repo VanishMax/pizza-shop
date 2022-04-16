@@ -8,7 +8,7 @@ interface PizzaCardProps {
   pizza: Pizza;
 }
 
-export default function Home({ pizza }: PizzaCardProps) {
+export default function PizzaCard({ pizza }: PizzaCardProps) {
   const price = useCurrency({
     eur: pizza.priceEur,
     usd: pizza.priceUsd,

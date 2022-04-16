@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { FieldElemType } from '~/components/form';
 import { GlobalContext } from '../global-context';
 import request from '../../shared/lib/request';
-import FormInput from '../form-input';
+import FormInput from '../../shared/ui/form-input';
 import Form from '../form';
 import Button from '../../shared/ui/button';
 import styles from './styles/order.module.css';
