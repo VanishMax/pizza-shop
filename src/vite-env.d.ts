@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_MAGIC_KEY: string;
+  readonly VITE_APP: string;
 }
 
 interface ImportMeta {

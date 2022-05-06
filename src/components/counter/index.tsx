@@ -1,6 +1,6 @@
 import { useState, useEffect, type KeyboardEvent, type FormEvent } from 'react';
 import styles from './counter.module.css';
-import Button from '../../shared/ui/button';
+import Button from '../button';
 import composeClasses from '../compose-classes';
 
 export default function Counter({

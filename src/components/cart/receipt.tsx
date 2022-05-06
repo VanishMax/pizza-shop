@@ -1,9 +1,9 @@
 import styles from './styles/receipt.module.css';
-import Button from '../../shared/ui/button';
-import Card from '../../shared/ui/card';
-import { CartPizza } from '../../pages/cart/ui/page';
+import Button from '../button';
+import Card from '../card';
+import { CartPizza } from '../../pages/cart/page';
 import { Currency } from '../global-context';
-import getCurrency from '../../features/currency/model/get-currency';
+import getCurrency from '../../shared/hooks/use-currency';
 
 export default function Receipt({
   pizzas,

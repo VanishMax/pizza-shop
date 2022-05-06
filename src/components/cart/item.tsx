@@ -1,8 +1,8 @@
 import styles from './styles/item.module.css';
 import Counter from '../counter';
-import { CartPizza } from '../../pages/cart/ui/page';
+import { CartPizza } from '../../pages/cart/page';
 import { Currency } from '../global-context';
-import getCurrency from '../../features/currency/model/get-currency';
+import getCurrency from '../../shared/hooks/use-currency';
 
 export default function CartItem({
   item,

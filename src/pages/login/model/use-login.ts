@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useAppDispatch } from '~/app/store';
+import { useAppDispatch } from '~/store/store';
 import { userSlice } from '~/entities/user';
 
 export const useLogin = () => {

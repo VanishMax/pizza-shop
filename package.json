@@ -9,13 +9,8 @@
     "lint:fix": "eslint --ext=.jsx,.js,.tsx,.ts --fix src",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
-  "prisma": {
-    "seed": "ts-node --project tsconfig.node.json prisma/seed.ts"
-  },
   "dependencies": {
-    "@prisma/client": "^3.12.0",
     "@reduxjs/toolkit": "^1.8.1",
-    "magic-sdk": "^8.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.8",
@@ -27,7 +22,6 @@
     "@types/react-redux": "^7.1.24",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
-    "@vercel/node": "^1.14.1",
     "@vitejs/plugin-react": "^1.3.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -39,7 +33,6 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
     "prettier": "^2.6.2",
-    "prisma": "^3.12.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.5"

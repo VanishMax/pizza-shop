@@ -1,5 +1,5 @@
 import { type FormEvent, type Dispatch } from 'react';
-import { InputTypeEnum } from '~/shared/ui/form-input';
+import { InputTypeEnum } from '~/components/form-input';
 import composeClasses from '~/components/compose-classes';
 import styles from './form.module.css';
 

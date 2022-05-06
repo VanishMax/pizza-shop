@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import Card from '~/shared/ui/card';
-import FormInput from '~/shared/ui/form-input';
-import Button from '~/shared/ui/button';
+import Card from '~/components/card';
+import FormInput from '~/components/form-input';
+import Button from '~/components/button';
 import Form from '~/components/form';
 import styles from '~/pages/form.module.css';
 import { useLogin } from '../model/use-login';

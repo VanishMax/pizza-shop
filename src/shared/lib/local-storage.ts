@@ -1,5 +1,5 @@
-import { Currency } from '~/features/currency';
-import { CartEntity } from '~/features/cart';
+import { Currency } from '~/store/currency-slice';
+import { CartEntity } from '~/shared/types';
 
 const LSTORAGE_ITEM = 'pizza-shop';
 
