@@ -1,10 +1,14 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app/app';
+import App from './App';
+
+import '@unocss/reset/tailwind.css';
+import './styles/main.css';
+import 'uno.css';
 
 ReactDOM.render(
-  <StrictMode>
+  <React.StrictMode>
     <App />
-  </StrictMode>,
-  document.getElementById('app'),
+  </React.StrictMode>,
+  document.getElementById('root'),
 );

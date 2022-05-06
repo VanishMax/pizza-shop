@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/icons/favicon.png" />
-    <link rel="apple-touch-icon" href="/icons/logo-192.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/icons/favicon.png" />
+  <link rel="apple-touch-icon" href="/icons/logo-192.png" />
   
-    <meta name="description" content="Pizza shop"/>
-    <link rel="stylesheet" href="/fonts/fonts.css">
-    <link rel="manifest" href="/manifest.json" />
-    <title>Pizza Shop</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src='/src/main.tsx'></script>
-  </body>
+  <title>Pizza shop</title>
+  <meta name="description" content="Pizza shop"/>
+</head>
+<body class="dark:text-white dark:bg-hex-121212">
+  <div id="root"></div>
+  <script>
+    (function () {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const setting = localStorage.getItem('usehooks-ts-dark-mode')
+        ? localStorage.getItem('usehooks-ts-dark-mode') === 'true'
+          ? 'dark'
+          : 'light'
+        : 'auto';
+
+      if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        document.documentElement.classList.toggle('dark', true);
+    })();
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

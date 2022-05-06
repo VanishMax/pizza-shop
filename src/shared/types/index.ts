@@ -1,3 +1,7 @@
-export type { CartEntity } from './cart';
-export type { PizzaOrder, Order } from './orders';
-export type { User, UserContext } from './user';
+export interface Pizza {
+  title: string
+  photo: string
+  description: string
+  priceUsd: number
+  priceEur: number
+}

@@ -1,4 +1,0 @@
-.orderBlock:not(:last-of-type) {
-  border-bottom: 1px solid #b1b4cd;
-  margin-bottom: 1.5rem;
-}
